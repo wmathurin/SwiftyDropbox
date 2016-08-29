@@ -3,9 +3,9 @@ import Alamofire
 
 /// The client for the Business API. Call routes using the namespaces inside this object (inherited from parent).
 
-public class DropboxTeamClient: DropboxTeamBase {
-    private var dropboxTransportClient: DropboxTransportClient
-    private var accessToken: DropboxAccessToken
+open class DropboxTeamClient: DropboxTeamBase {
+    fileprivate var dropboxTransportClient: DropboxTransportClient
+    fileprivate var accessToken: DropboxAccessToken
     
     public convenience init(accessToken: DropboxAccessToken) {
         let dropboxTransportClient = DropboxTransportClient(accessToken: accessToken)
@@ -19,7 +19,7 @@ public class DropboxTeamClient: DropboxTeamBase {
         super.init(client: dropboxTransportClient)
     }
 
-    public func asMember(memberId: String) -> DropboxClient {
+    open func asMember(_ memberId: String) -> DropboxClient {
         return DropboxClient(accessToken: self.accessToken, selectUser: memberId)
     }
 }

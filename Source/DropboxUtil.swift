@@ -6,8 +6,8 @@ class DropboxServerTrustPolicyManager: ServerTrustPolicyManager {
         super.init(policies: [String : ServerTrustPolicy]())
     }
         
-    override func serverTrustPolicyForHost(host: String) -> ServerTrustPolicy? {
-        let trustPolicy = ServerTrustPolicy.CustomEvaluation {(serverTrust, host) in
+    override func serverTrustPolicyForHost(_ host: String) -> ServerTrustPolicy? {
+        let trustPolicy = ServerTrustPolicy.customEvaluation {(serverTrust, host) in
             let policy = SecPolicyCreateSSL(true,  host as CFString)
             SecTrustSetPolicies(serverTrust, [policy])
             
@@ -16,12 +16,12 @@ class DropboxServerTrustPolicyManager: ServerTrustPolicyManager {
             SecTrustSetAnchorCertificatesOnly(serverTrust, true)
             
             var isValid = false
-            var result = SecTrustResultType(kSecTrustResultInvalid)
+            var result = SecTrustResultType(SecTrustResultType.invalid)
             let status = SecTrustEvaluate(serverTrust, &result)
             
             if status == errSecSuccess {
-                let unspecified = SecTrustResultType(kSecTrustResultUnspecified)
-                let proceed = SecTrustResultType(kSecTrustResultProceed)
+                let unspecified = SecTrustResultType(SecTrustResultType.unspecified)
+                let proceed = SecTrustResultType(SecTrustResultType.proceed)
                 
                 isValid = result == unspecified || result == proceed
             }
@@ -44,15 +44,15 @@ class DropboxServerTrustPolicyManager: ServerTrustPolicyManager {
 /// https://www.dropbox.com/developers/documentation/swift#tutorial
 ///
 /// For information on the available API methods, see the documentation for DropboxClient
-public class Dropbox {
+open class Dropbox {
     /// An authorized client. This will be set to nil if unlinked.
-    public static var authorizedClient: DropboxClient?
+    open static var authorizedClient: DropboxClient?
     
     /// An authorized team client. This will be set to nil if unlinked.
-    public static var authorizedTeamClient: DropboxTeamClient?
+    open static var authorizedTeamClient: DropboxTeamClient?
 
     /// Sets up access to the Dropbox User API
-    public static func setupWithAppKey(appKey: String) {
+    open static func setupWithAppKey(_ appKey: String) {
         precondition(DropboxAuthManager.sharedAuthManager == nil, "Only call `Dropbox.setupWithAppKey` or `Dropbox.setupWithTeamAppKey` once")
         DropboxAuthManager.sharedAuthManager = DropboxAuthManager(appKey: appKey)
 
@@ -62,7 +62,7 @@ public class Dropbox {
     }
     
     /// Sets up access to the Dropbox Team API
-    public static func setupWithTeamAppKey(appKey: String) {
+    open static func setupWithTeamAppKey(_ appKey: String) {
         precondition(DropboxAuthManager.sharedAuthManager == nil, "Only call `Dropbox.setupWithAppKey` or `Dropbox.setupWithTeamAppKey` once")
         DropboxAuthManager.sharedAuthManager = DropboxAuthManager(appKey: appKey)
         
@@ -74,24 +74,24 @@ public class Dropbox {
     /// Present the OAuth2 authorization request page by presenting a web view controller modally
     ///
     /// - parameter controller: The controller to present from
-    public static func authorizeFromController(controller: UIViewController) {
+    open static func authorizeFromController(_ controller: UIViewController) {
         precondition(DropboxAuthManager.sharedAuthManager != nil, "Call `Dropbox.setupWithAppKey` or `Dropbox.setupWithTeamAppKey` before calling this method")
         precondition(Dropbox.authorizedClient == nil && Dropbox.authorizedTeamClient == nil, "A Dropbox client is already authorized")
         DropboxAuthManager.sharedAuthManager.authorizeFromController(controller)
     }
 
     /// Handle a redirect and automatically initialize the client and save the token.
-    public static func handleRedirectURL(url: NSURL) -> DropboxAuthResult? {
+    open static func handleRedirectURL(_ url: URL) -> DropboxAuthResult? {
         precondition(DropboxAuthManager.sharedAuthManager != nil, "Call `Dropbox.setupWithAppKey` before calling this method")
         precondition(Dropbox.authorizedClient == nil, "Dropbox user client is already authorized")
         if let result =  DropboxAuthManager.sharedAuthManager.handleRedirectURL(url) {
             switch result {
-            case .Success(let token):
+            case .success(let token):
                 Dropbox.authorizedClient = DropboxClient(accessToken: token)
                 return result
-            case .Cancel:
+            case .cancel:
                 return result
-            case .Error:
+            case .error:
                 return result
             }
         } else {
@@ -100,17 +100,17 @@ public class Dropbox {
     }
     
     /// Handle a redirect and automatically initialize the client and save the token.
-    public static func handleRedirectURLTeam(url: NSURL) -> DropboxAuthResult? {
+    open static func handleRedirectURLTeam(_ url: URL) -> DropboxAuthResult? {
         precondition(DropboxAuthManager.sharedAuthManager != nil, "Call `Dropbox.setupWithTeamAppKey` before calling this method")
         precondition(Dropbox.authorizedTeamClient == nil, "Dropbox team client is already authorized")
         if let result =  DropboxAuthManager.sharedAuthManager.handleRedirectURL(url) {
             switch result {
-            case .Success(let token):
+            case .success(let token):
                 Dropbox.authorizedTeamClient = DropboxTeamClient(accessToken: token)
                 return result
-            case .Cancel:
+            case .cancel:
                 return result
-            case .Error:
+            case .error:
                 return result
             }
         } else {
@@ -119,7 +119,7 @@ public class Dropbox {
     }
 
     /// Unlink the user.
-    public static func unlinkClient() {
+    open static func unlinkClient() {
         precondition(DropboxAuthManager.sharedAuthManager != nil, "Call `Dropbox.setupWithAppKey` before calling this method")
         if Dropbox.authorizedClient == nil && Dropbox.authorizedTeamClient == nil {
             // already unlinked

@@ -61,11 +61,11 @@ public class SerializeUtil {
     public class func dumpJSON(json: JSON) -> NSData? {
         switch json {
         case .Null:
-            return "null".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            return "null".data(using: NSUTF8StringEncoding, allowLossyConversion: false)
         default:
             let obj: AnyObject = prepareJSONForSerialization(json)
-            if NSJSONSerialization.isValidJSONObject(obj) {
-                return try! NSJSONSerialization.dataWithJSONObject(obj, options: NSJSONWritingOptions())
+            if JSONSerialization.isValidJSONObject(obj) {
+                return try! JSONSerialization.dataWithJSONObject(obj, options: JSONSerialization.WritingOptions())
             } else {
                 fatalError("Invalid JSON toplevel type")
             }
@@ -73,7 +73,7 @@ public class SerializeUtil {
     }
 
     public class func parseJSON(data: NSData) -> JSON {
-        let obj: AnyObject = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+        let obj: AnyObject = try! JSONSerialization.JSONObjectWithData(data as Data, options: JSONSerialization.ReadingOptions.AllowFragments)
         return objectToJSON(obj)
     }
 }
@@ -141,7 +141,7 @@ public class StringSerializer: JSONSerializer {
 
 public class NSDateSerializer: JSONSerializer {
     
-    var dateFormatter: NSDateFormatter
+    var dateFormatter: DateFormatter
     
     private func convertFormat(format: String) -> String? {
         func symbolForToken(token: String) -> String {
@@ -234,13 +234,13 @@ public class NSDateSerializer: JSONSerializer {
     
     
     init(_ dateFormat: String) {
-        self.dateFormatter = NSDateFormatter()
+        self.dateFormatter = DateFormatter()
         self.dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        self.dateFormatter.locale = NSLocale(localeIdentifier:"en_US_POSIX")
+        self.dateFormatter.locale = NSLocale(localeIdentifier:"en_US_POSIX") as Locale!
         dateFormatter.dateFormat = self.convertFormat(dateFormat)
     }
     public func serialize(value: NSDate) -> JSON {
-        return .Str(self.dateFormatter.stringFromDate(value))
+        return .Str(self.dateFormatter.string(from: value as Date))
     }
     
     public func deserialize(json: JSON) -> NSDate {
@@ -275,7 +275,7 @@ public class UInt64Serializer: JSONSerializer {
     public func deserialize(json: JSON) -> UInt64 {
         switch json {
         case .Number(let n):
-            return n.unsignedLongLongValue
+            return n.uint64Value
         default:
             fatalError("Type error deserializing")
         }
@@ -290,7 +290,7 @@ public class Int64Serializer: JSONSerializer {
     public func deserialize(json: JSON) -> Int64 {
         switch json {
         case .Number(let n):
-            return n.longLongValue
+            return n.int64Value
         default:
             fatalError("Type error deserializing")
         }
@@ -319,7 +319,7 @@ public class UInt32Serializer: JSONSerializer {
     public func deserialize(json: JSON) -> UInt32 {
         switch json {
         case .Number(let n):
-            return n.unsignedIntValue
+            return n.uint32Value
         default:
             fatalError("Type error deserializing")
         }
@@ -328,7 +328,7 @@ public class UInt32Serializer: JSONSerializer {
 
 public class NSDataSerializer: JSONSerializer {
     public func serialize(value: NSData) -> JSON {
-        return .Str(value.base64EncodedStringWithOptions([]))
+        return .Str(value.base64EncodedString(options: []))
     }
     
     public func deserialize(json: JSON) -> NSData {

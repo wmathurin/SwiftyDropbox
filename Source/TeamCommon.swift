@@ -5,51 +5,51 @@
 import Foundation
 
 /// Datatypes and serializers for the team_common namespace
-public class TeamCommon {
+open class TeamCommon {
     /// The group type determines how a group is managed.
     public enum GroupManagementType: CustomStringConvertible {
         /// A group which is managed by team admins only.
-        case CompanyManaged
+        case companyManaged
         /// A group which is managed by selected users.
-        case UserManaged
+        case userManaged
         /// An unspecified error.
-        case Other
+        case other
 
         public var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(GroupManagementTypeSerializer().serialize(self)))"
         }
     }
-    public class GroupManagementTypeSerializer: JSONSerializer {
+    open class GroupManagementTypeSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: GroupManagementType) -> JSON {
+        open func serialize(_ value: GroupManagementType) -> JSON {
             switch value {
-                case .CompanyManaged:
+                case .companyManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("company_managed")
-                    return .Dictionary(d)
-                case .UserManaged:
+                    d[".tag"] = .str("company_managed")
+                    return .dictionary(d)
+                case .userManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("user_managed")
-                    return .Dictionary(d)
-                case .Other:
+                    d[".tag"] = .str("user_managed")
+                    return .dictionary(d)
+                case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("other")
-                    return .Dictionary(d)
+                    d[".tag"] = .str("other")
+                    return .dictionary(d)
             }
         }
-        public func deserialize(json: JSON) -> GroupManagementType {
+        open func deserialize(_ json: JSON) -> GroupManagementType {
             switch json {
-                case .Dictionary(let d):
+                case .dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "company_managed":
-                            return GroupManagementType.CompanyManaged
+                            return GroupManagementType.companyManaged
                         case "user_managed":
-                            return GroupManagementType.UserManaged
+                            return GroupManagementType.userManaged
                         case "other":
-                            return GroupManagementType.Other
+                            return GroupManagementType.other
                         default:
-                            return GroupManagementType.Other
+                            return GroupManagementType.other
                     }
                 default:
                     fatalError("Failed to deserialize")
@@ -58,17 +58,17 @@ public class TeamCommon {
     }
 
     /// Information about a group.
-    public class GroupSummary: CustomStringConvertible {
+    open class GroupSummary: CustomStringConvertible {
         /// (no description)
-        public let groupName: String
+        open let groupName: String
         /// (no description)
-        public let groupId: String
+        open let groupId: String
         /// External ID of group. This is an arbitrary ID that an admin can attach to a group.
-        public let groupExternalId: String?
+        open let groupExternalId: String?
         /// The number of members in the group.
-        public let memberCount: UInt32?
+        open let memberCount: UInt32?
         /// Who is allowed to manage the group.
-        public let groupManagementType: TeamCommon.GroupManagementType
+        open let groupManagementType: TeamCommon.GroupManagementType
         public init(groupName: String, groupId: String, groupManagementType: TeamCommon.GroupManagementType, groupExternalId: String? = nil, memberCount: UInt32? = nil) {
             stringValidator()(groupName)
             self.groupName = groupName
@@ -80,13 +80,13 @@ public class TeamCommon {
             self.memberCount = memberCount
             self.groupManagementType = groupManagementType
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(GroupSummarySerializer().serialize(self)))"
         }
     }
-    public class GroupSummarySerializer: JSONSerializer {
+    open class GroupSummarySerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: GroupSummary) -> JSON {
+        open func serialize(_ value: GroupSummary) -> JSON {
             let output = [ 
             "group_name": Serialization._StringSerializer.serialize(value.groupName),
             "group_id": Serialization._StringSerializer.serialize(value.groupId),
@@ -94,16 +94,16 @@ public class TeamCommon {
             "group_external_id": NullableSerializer(Serialization._StringSerializer).serialize(value.groupExternalId),
             "member_count": NullableSerializer(Serialization._UInt32Serializer).serialize(value.memberCount),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> GroupSummary {
+        open func deserialize(_ json: JSON) -> GroupSummary {
             switch json {
-                case .Dictionary(let dict):
-                    let groupName = Serialization._StringSerializer.deserialize(dict["group_name"] ?? .Null)
-                    let groupId = Serialization._StringSerializer.deserialize(dict["group_id"] ?? .Null)
-                    let groupManagementType = TeamCommon.GroupManagementTypeSerializer().deserialize(dict["group_management_type"] ?? .Null)
-                    let groupExternalId = NullableSerializer(Serialization._StringSerializer).deserialize(dict["group_external_id"] ?? .Null)
-                    let memberCount = NullableSerializer(Serialization._UInt32Serializer).deserialize(dict["member_count"] ?? .Null)
+                case .dictionary(let dict):
+                    let groupName = Serialization._StringSerializer.deserialize(dict["group_name"] ?? .null)
+                    let groupId = Serialization._StringSerializer.deserialize(dict["group_id"] ?? .null)
+                    let groupManagementType = TeamCommon.GroupManagementTypeSerializer().deserialize(dict["group_management_type"] ?? .null)
+                    let groupExternalId = NullableSerializer(Serialization._StringSerializer).deserialize(dict["group_external_id"] ?? .null)
+                    let memberCount = NullableSerializer(Serialization._UInt32Serializer).deserialize(dict["member_count"] ?? .null)
                     return GroupSummary(groupName: groupName, groupId: groupId, groupManagementType: groupManagementType, groupExternalId: groupExternalId, memberCount: memberCount)
                 default:
                     fatalError("Type error deserializing")
@@ -115,47 +115,47 @@ public class TeamCommon {
     public enum GroupType: CustomStringConvertible {
         /// A group to which team members are automatically added. Applicable to team folders
         /// https://www.dropbox.com/help/986 only.
-        case Team
+        case team
         /// A group is created and managed by a user.
-        case UserManaged
+        case userManaged
         /// An unspecified error.
-        case Other
+        case other
 
         public var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(GroupTypeSerializer().serialize(self)))"
         }
     }
-    public class GroupTypeSerializer: JSONSerializer {
+    open class GroupTypeSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: GroupType) -> JSON {
+        open func serialize(_ value: GroupType) -> JSON {
             switch value {
-                case .Team:
+                case .team:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("team")
-                    return .Dictionary(d)
-                case .UserManaged:
+                    d[".tag"] = .str("team")
+                    return .dictionary(d)
+                case .userManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("user_managed")
-                    return .Dictionary(d)
-                case .Other:
+                    d[".tag"] = .str("user_managed")
+                    return .dictionary(d)
+                case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("other")
-                    return .Dictionary(d)
+                    d[".tag"] = .str("other")
+                    return .dictionary(d)
             }
         }
-        public func deserialize(json: JSON) -> GroupType {
+        open func deserialize(_ json: JSON) -> GroupType {
             switch json {
-                case .Dictionary(let d):
+                case .dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "team":
-                            return GroupType.Team
+                            return GroupType.team
                         case "user_managed":
-                            return GroupType.UserManaged
+                            return GroupType.userManaged
                         case "other":
-                            return GroupType.Other
+                            return GroupType.other
                         default:
-                            return GroupType.Other
+                            return GroupType.other
                     }
                 default:
                     fatalError("Failed to deserialize")

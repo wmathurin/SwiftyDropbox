@@ -3,8 +3,8 @@
 ///
 
 /// Routes for the users namespace
-public class UsersRoutes {
-    public let client: DropboxTransportClient
+open class UsersRoutes {
+    open let client: DropboxTransportClient
     init(client: DropboxTransportClient) {
         self.client = client
     }
@@ -15,7 +15,7 @@ public class UsersRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Users.BasicAccount` object on success or a
     /// `Users.GetAccountError` object on failure.
-    public func getAccount(accountId accountId: String) -> RpcRequest<Users.BasicAccountSerializer, Users.GetAccountErrorSerializer> {
+    open func getAccount(accountId: String) -> RpcRequest<Users.BasicAccountSerializer, Users.GetAccountErrorSerializer> {
         let route = Users.getAccount
         let serverArgs = Users.GetAccountArg(accountId: accountId)
         return client.request(route, serverArgs: serverArgs)
@@ -27,7 +27,7 @@ public class UsersRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Array<Users.BasicAccount>` object on
     /// success or a `Users.GetAccountBatchError` object on failure.
-    public func getAccountBatch(accountIds accountIds: Array<String>) -> RpcRequest<ArraySerializer<Users.BasicAccountSerializer>, Users.GetAccountBatchErrorSerializer> {
+    open func getAccountBatch(accountIds: Array<String>) -> RpcRequest<ArraySerializer<Users.BasicAccountSerializer>, Users.GetAccountBatchErrorSerializer> {
         let route = Users.getAccountBatch
         let serverArgs = Users.GetAccountBatchArg(accountIds: accountIds)
         return client.request(route, serverArgs: serverArgs)
@@ -38,7 +38,7 @@ public class UsersRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Users.FullAccount` object on success or a
     /// `Void` object on failure.
-    public func getCurrentAccount() -> RpcRequest<Users.FullAccountSerializer, VoidSerializer> {
+    open func getCurrentAccount() -> RpcRequest<Users.FullAccountSerializer, VoidSerializer> {
         let route = Users.getCurrentAccount
         return client.request(route)
     }
@@ -48,7 +48,7 @@ public class UsersRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Users.SpaceUsage` object on success or a
     /// `Void` object on failure.
-    public func getSpaceUsage() -> RpcRequest<Users.SpaceUsageSerializer, VoidSerializer> {
+    open func getSpaceUsage() -> RpcRequest<Users.SpaceUsageSerializer, VoidSerializer> {
         let route = Users.getSpaceUsage
         return client.request(route)
     }

@@ -3,8 +3,8 @@
 ///
 
 /// Routes for the team namespace
-public class TeamRoutes {
-    public let client: DropboxTransportClient
+open class TeamRoutes {
+    open let client: DropboxTransportClient
     init(client: DropboxTransportClient) {
         self.client = client
     }
@@ -17,7 +17,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupFullInfo` object on success or a
     /// `Team.GroupCreateError` object on failure.
-    public func alphaGroupsCreate(groupName groupName: String, groupExternalId: String? = nil, groupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupCreateErrorSerializer> {
+    open func alphaGroupsCreate(groupName: String, groupExternalId: String? = nil, groupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupCreateErrorSerializer> {
         let route = Team.alphaGroupsCreate
         let serverArgs = Team.GroupCreateArg(groupName: groupName, groupExternalId: groupExternalId, groupManagementType: groupManagementType)
         return client.request(route, serverArgs: serverArgs)
@@ -29,7 +29,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Array<Team.GroupsGetInfoItem>` object on
     /// success or a `Team.GroupsGetInfoError` object on failure.
-    public func alphaGroupsGetInfo(groupsSelector groupsSelector: Team.GroupsSelector) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupsGetInfoErrorSerializer> {
+    open func alphaGroupsGetInfo(groupsSelector: Team.GroupsSelector) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupsGetInfoErrorSerializer> {
         let route = Team.alphaGroupsGetInfo
         let serverArgs = groupsSelector
         return client.request(route, serverArgs: serverArgs)
@@ -41,7 +41,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsListResult` object on success
     /// or a `Void` object on failure.
-    public func alphaGroupsList(limit: UInt32 = 1000) -> RpcRequest<Team.GroupsListResultSerializer, VoidSerializer> {
+    open func alphaGroupsList(_ limit: UInt32 = 1000) -> RpcRequest<Team.GroupsListResultSerializer, VoidSerializer> {
         let route = Team.alphaGroupsList
         let serverArgs = Team.GroupsListArg(limit: limit)
         return client.request(route, serverArgs: serverArgs)
@@ -54,7 +54,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsListResult` object on success
     /// or a `Team.GroupsListContinueError` object on failure.
-    public func alphaGroupsListContinue(cursor cursor: String) -> RpcRequest<Team.GroupsListResultSerializer, Team.GroupsListContinueErrorSerializer> {
+    open func alphaGroupsListContinue(cursor: String) -> RpcRequest<Team.GroupsListResultSerializer, Team.GroupsListContinueErrorSerializer> {
         let route = Team.alphaGroupsListContinue
         let serverArgs = Team.GroupsListContinueArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -70,7 +70,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupFullInfo` object on success or a
     /// `Team.GroupUpdateError` object on failure.
-    public func alphaGroupsUpdate(group group: Team.GroupSelector, returnMembers: Bool = true, newGroupName: String? = nil, newGroupExternalId: String? = nil, newGroupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupUpdateErrorSerializer> {
+    open func alphaGroupsUpdate(group: Team.GroupSelector, returnMembers: Bool = true, newGroupName: String? = nil, newGroupExternalId: String? = nil, newGroupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupUpdateErrorSerializer> {
         let route = Team.alphaGroupsUpdate
         let serverArgs = Team.GroupUpdateArgs(group: group, returnMembers: returnMembers, newGroupName: newGroupName, newGroupExternalId: newGroupExternalId, newGroupManagementType: newGroupManagementType)
         return client.request(route, serverArgs: serverArgs)
@@ -85,7 +85,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListMemberDevicesResult` object on
     /// success or a `Team.ListMemberDevicesError` object on failure.
-    public func devicesListMemberDevices(teamMemberId teamMemberId: String, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListMemberDevicesResultSerializer, Team.ListMemberDevicesErrorSerializer> {
+    open func devicesListMemberDevices(teamMemberId: String, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListMemberDevicesResultSerializer, Team.ListMemberDevicesErrorSerializer> {
         let route = Team.devicesListMemberDevices
         let serverArgs = Team.ListMemberDevicesArg(teamMemberId: teamMemberId, includeWebSessions: includeWebSessions, includeDesktopClients: includeDesktopClients, includeMobileClients: includeMobileClients)
         return client.request(route, serverArgs: serverArgs)
@@ -102,7 +102,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListMembersDevicesResult` object on
     /// success or a `Team.ListMembersDevicesError` object on failure.
-    public func devicesListMembersDevices(cursor: String? = nil, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListMembersDevicesResultSerializer, Team.ListMembersDevicesErrorSerializer> {
+    open func devicesListMembersDevices(_ cursor: String? = nil, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListMembersDevicesResultSerializer, Team.ListMembersDevicesErrorSerializer> {
         let route = Team.devicesListMembersDevices
         let serverArgs = Team.ListMembersDevicesArg(cursor: cursor, includeWebSessions: includeWebSessions, includeDesktopClients: includeDesktopClients, includeMobileClients: includeMobileClients)
         return client.request(route, serverArgs: serverArgs)
@@ -119,8 +119,8 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListTeamDevicesResult` object on
     /// success or a `Team.ListTeamDevicesError` object on failure.
-    @available(*, unavailable, message="devices/list_team_devices is deprecated. Use devices/list_members_devices.")
-    public func devicesListTeamDevices(cursor: String? = nil, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListTeamDevicesResultSerializer, Team.ListTeamDevicesErrorSerializer> {
+    @available(*, unavailable, message: "devices/list_team_devices is deprecated. Use devices/list_members_devices.")
+    open func devicesListTeamDevices(_ cursor: String? = nil, includeWebSessions: Bool = true, includeDesktopClients: Bool = true, includeMobileClients: Bool = true) -> RpcRequest<Team.ListTeamDevicesResultSerializer, Team.ListTeamDevicesErrorSerializer> {
         let route = Team.devicesListTeamDevices
         let serverArgs = Team.ListTeamDevicesArg(cursor: cursor, includeWebSessions: includeWebSessions, includeDesktopClients: includeDesktopClients, includeMobileClients: includeMobileClients)
         return client.request(route, serverArgs: serverArgs)
@@ -132,7 +132,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.RevokeDeviceSessionError` object on failure.
-    public func devicesRevokeDeviceSession(revokeDeviceSessionArg revokeDeviceSessionArg: Team.RevokeDeviceSessionArg) -> RpcRequest<VoidSerializer, Team.RevokeDeviceSessionErrorSerializer> {
+    open func devicesRevokeDeviceSession(revokeDeviceSessionArg: Team.RevokeDeviceSessionArg) -> RpcRequest<VoidSerializer, Team.RevokeDeviceSessionErrorSerializer> {
         let route = Team.devicesRevokeDeviceSession
         let serverArgs = revokeDeviceSessionArg
         return client.request(route, serverArgs: serverArgs)
@@ -143,7 +143,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.RevokeDeviceSessionBatchResult`
     /// object on success or a `Team.RevokeDeviceSessionBatchError` object on failure.
-    public func devicesRevokeDeviceSessionBatch(revokeDevices revokeDevices: Array<Team.RevokeDeviceSessionArg>) -> RpcRequest<Team.RevokeDeviceSessionBatchResultSerializer, Team.RevokeDeviceSessionBatchErrorSerializer> {
+    open func devicesRevokeDeviceSessionBatch(revokeDevices: Array<Team.RevokeDeviceSessionArg>) -> RpcRequest<Team.RevokeDeviceSessionBatchResultSerializer, Team.RevokeDeviceSessionBatchErrorSerializer> {
         let route = Team.devicesRevokeDeviceSessionBatch
         let serverArgs = Team.RevokeDeviceSessionBatchArg(revokeDevices: revokeDevices)
         return client.request(route, serverArgs: serverArgs)
@@ -154,7 +154,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.TeamGetInfoResult` object on success
     /// or a `Void` object on failure.
-    public func getInfo() -> RpcRequest<Team.TeamGetInfoResultSerializer, VoidSerializer> {
+    open func getInfo() -> RpcRequest<Team.TeamGetInfoResultSerializer, VoidSerializer> {
         let route = Team.getInfo
         return client.request(route)
     }
@@ -167,7 +167,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupFullInfo` object on success or a
     /// `Team.GroupCreateError` object on failure.
-    public func groupsCreate(groupName groupName: String, groupExternalId: String? = nil, groupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupCreateErrorSerializer> {
+    open func groupsCreate(groupName: String, groupExternalId: String? = nil, groupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupCreateErrorSerializer> {
         let route = Team.groupsCreate
         let serverArgs = Team.GroupCreateArg(groupName: groupName, groupExternalId: groupExternalId, groupManagementType: groupManagementType)
         return client.request(route, serverArgs: serverArgs)
@@ -181,7 +181,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Async.LaunchEmptyResult` object on success
     /// or a `Team.GroupDeleteError` object on failure.
-    public func groupsDelete(groupSelector groupSelector: Team.GroupSelector) -> RpcRequest<Async.LaunchEmptyResultSerializer, Team.GroupDeleteErrorSerializer> {
+    open func groupsDelete(groupSelector: Team.GroupSelector) -> RpcRequest<Async.LaunchEmptyResultSerializer, Team.GroupDeleteErrorSerializer> {
         let route = Team.groupsDelete
         let serverArgs = groupSelector
         return client.request(route, serverArgs: serverArgs)
@@ -193,7 +193,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Array<Team.GroupsGetInfoItem>` object on
     /// success or a `Team.GroupsGetInfoError` object on failure.
-    public func groupsGetInfo(groupsSelector groupsSelector: Team.GroupsSelector) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupsGetInfoErrorSerializer> {
+    open func groupsGetInfo(groupsSelector: Team.GroupsSelector) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupsGetInfoErrorSerializer> {
         let route = Team.groupsGetInfo
         let serverArgs = groupsSelector
         return client.request(route, serverArgs: serverArgs)
@@ -208,7 +208,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Async.PollEmptyResult` object on success
     /// or a `Team.GroupsPollError` object on failure.
-    public func groupsJobStatusGet(asyncJobId asyncJobId: String) -> RpcRequest<Async.PollEmptyResultSerializer, Team.GroupsPollErrorSerializer> {
+    open func groupsJobStatusGet(asyncJobId: String) -> RpcRequest<Async.PollEmptyResultSerializer, Team.GroupsPollErrorSerializer> {
         let route = Team.groupsJobStatusGet
         let serverArgs = Async.PollArg(asyncJobId: asyncJobId)
         return client.request(route, serverArgs: serverArgs)
@@ -220,7 +220,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsListResult` object on success
     /// or a `Void` object on failure.
-    public func groupsList(limit: UInt32 = 1000) -> RpcRequest<Team.GroupsListResultSerializer, VoidSerializer> {
+    open func groupsList(_ limit: UInt32 = 1000) -> RpcRequest<Team.GroupsListResultSerializer, VoidSerializer> {
         let route = Team.groupsList
         let serverArgs = Team.GroupsListArg(limit: limit)
         return client.request(route, serverArgs: serverArgs)
@@ -233,7 +233,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsListResult` object on success
     /// or a `Team.GroupsListContinueError` object on failure.
-    public func groupsListContinue(cursor cursor: String) -> RpcRequest<Team.GroupsListResultSerializer, Team.GroupsListContinueErrorSerializer> {
+    open func groupsListContinue(cursor: String) -> RpcRequest<Team.GroupsListResultSerializer, Team.GroupsListContinueErrorSerializer> {
         let route = Team.groupsListContinue
         let serverArgs = Team.GroupsListContinueArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -248,7 +248,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupMembersChangeResult` object on
     /// success or a `Team.GroupMembersAddError` object on failure.
-    public func groupsMembersAdd(group group: Team.GroupSelector, members: Array<Team.MemberAccess>, returnMembers: Bool = true) -> RpcRequest<Team.GroupMembersChangeResultSerializer, Team.GroupMembersAddErrorSerializer> {
+    open func groupsMembersAdd(group: Team.GroupSelector, members: Array<Team.MemberAccess>, returnMembers: Bool = true) -> RpcRequest<Team.GroupMembersChangeResultSerializer, Team.GroupMembersAddErrorSerializer> {
         let route = Team.groupsMembersAdd
         let serverArgs = Team.GroupMembersAddArg(group: group, members: members, returnMembers: returnMembers)
         return client.request(route, serverArgs: serverArgs)
@@ -261,7 +261,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsMembersListResult` object on
     /// success or a `Team.GroupSelectorError` object on failure.
-    public func groupsMembersList(group group: Team.GroupSelector, limit: UInt32 = 1000) -> RpcRequest<Team.GroupsMembersListResultSerializer, Team.GroupSelectorErrorSerializer> {
+    open func groupsMembersList(group: Team.GroupSelector, limit: UInt32 = 1000) -> RpcRequest<Team.GroupsMembersListResultSerializer, Team.GroupSelectorErrorSerializer> {
         let route = Team.groupsMembersList
         let serverArgs = Team.GroupsMembersListArg(group: group, limit: limit)
         return client.request(route, serverArgs: serverArgs)
@@ -274,7 +274,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupsMembersListResult` object on
     /// success or a `Team.GroupsMembersListContinueError` object on failure.
-    public func groupsMembersListContinue(cursor cursor: String) -> RpcRequest<Team.GroupsMembersListResultSerializer, Team.GroupsMembersListContinueErrorSerializer> {
+    open func groupsMembersListContinue(cursor: String) -> RpcRequest<Team.GroupsMembersListResultSerializer, Team.GroupsMembersListContinueErrorSerializer> {
         let route = Team.groupsMembersListContinue
         let serverArgs = Team.GroupsMembersListContinueArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -290,7 +290,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupMembersChangeResult` object on
     /// success or a `Team.GroupMembersRemoveError` object on failure.
-    public func groupsMembersRemove(group group: Team.GroupSelector, users: Array<Team.UserSelectorArg>, returnMembers: Bool = true) -> RpcRequest<Team.GroupMembersChangeResultSerializer, Team.GroupMembersRemoveErrorSerializer> {
+    open func groupsMembersRemove(group: Team.GroupSelector, users: Array<Team.UserSelectorArg>, returnMembers: Bool = true) -> RpcRequest<Team.GroupMembersChangeResultSerializer, Team.GroupMembersRemoveErrorSerializer> {
         let route = Team.groupsMembersRemove
         let serverArgs = Team.GroupMembersRemoveArg(group: group, users: users, returnMembers: returnMembers)
         return client.request(route, serverArgs: serverArgs)
@@ -304,7 +304,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Array<Team.GroupsGetInfoItem>` object on
     /// success or a `Team.GroupMemberSetAccessTypeError` object on failure.
-    public func groupsMembersSetAccessType(group group: Team.GroupSelector, user: Team.UserSelectorArg, accessType: Team.GroupAccessType, returnMembers: Bool = true) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupMemberSetAccessTypeErrorSerializer> {
+    open func groupsMembersSetAccessType(group: Team.GroupSelector, user: Team.UserSelectorArg, accessType: Team.GroupAccessType, returnMembers: Bool = true) -> RpcRequest<ArraySerializer<Team.GroupsGetInfoItemSerializer>, Team.GroupMemberSetAccessTypeErrorSerializer> {
         let route = Team.groupsMembersSetAccessType
         let serverArgs = Team.GroupMembersSetAccessTypeArg(group: group, user: user, accessType: accessType, returnMembers: returnMembers)
         return client.request(route, serverArgs: serverArgs)
@@ -320,7 +320,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GroupFullInfo` object on success or a
     /// `Team.GroupUpdateError` object on failure.
-    public func groupsUpdate(group group: Team.GroupSelector, returnMembers: Bool = true, newGroupName: String? = nil, newGroupExternalId: String? = nil, newGroupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupUpdateErrorSerializer> {
+    open func groupsUpdate(group: Team.GroupSelector, returnMembers: Bool = true, newGroupName: String? = nil, newGroupExternalId: String? = nil, newGroupManagementType: TeamCommon.GroupManagementType? = nil) -> RpcRequest<Team.GroupFullInfoSerializer, Team.GroupUpdateErrorSerializer> {
         let route = Team.groupsUpdate
         let serverArgs = Team.GroupUpdateArgs(group: group, returnMembers: returnMembers, newGroupName: newGroupName, newGroupExternalId: newGroupExternalId, newGroupManagementType: newGroupManagementType)
         return client.request(route, serverArgs: serverArgs)
@@ -332,7 +332,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListMemberAppsResult` object on
     /// success or a `Team.ListMemberAppsError` object on failure.
-    public func linkedAppsListMemberLinkedApps(teamMemberId teamMemberId: String) -> RpcRequest<Team.ListMemberAppsResultSerializer, Team.ListMemberAppsErrorSerializer> {
+    open func linkedAppsListMemberLinkedApps(teamMemberId: String) -> RpcRequest<Team.ListMemberAppsResultSerializer, Team.ListMemberAppsErrorSerializer> {
         let route = Team.linkedAppsListMemberLinkedApps
         let serverArgs = Team.ListMemberAppsArg(teamMemberId: teamMemberId)
         return client.request(route, serverArgs: serverArgs)
@@ -347,7 +347,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListMembersAppsResult` object on
     /// success or a `Team.ListMembersAppsError` object on failure.
-    public func linkedAppsListMembersLinkedApps(cursor: String? = nil) -> RpcRequest<Team.ListMembersAppsResultSerializer, Team.ListMembersAppsErrorSerializer> {
+    open func linkedAppsListMembersLinkedApps(_ cursor: String? = nil) -> RpcRequest<Team.ListMembersAppsResultSerializer, Team.ListMembersAppsErrorSerializer> {
         let route = Team.linkedAppsListMembersLinkedApps
         let serverArgs = Team.ListMembersAppsArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -362,8 +362,8 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.ListTeamAppsResult` object on success
     /// or a `Team.ListTeamAppsError` object on failure.
-    @available(*, unavailable, message="linked_apps/list_team_linked_apps is deprecated. Use linked_apps/list_members_linked_apps.")
-    public func linkedAppsListTeamLinkedApps(cursor: String? = nil) -> RpcRequest<Team.ListTeamAppsResultSerializer, Team.ListTeamAppsErrorSerializer> {
+    @available(*, unavailable, message: "linked_apps/list_team_linked_apps is deprecated. Use linked_apps/list_members_linked_apps.")
+    open func linkedAppsListTeamLinkedApps(_ cursor: String? = nil) -> RpcRequest<Team.ListTeamAppsResultSerializer, Team.ListTeamAppsErrorSerializer> {
         let route = Team.linkedAppsListTeamLinkedApps
         let serverArgs = Team.ListTeamAppsArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -377,7 +377,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.RevokeLinkedAppError` object on failure.
-    public func linkedAppsRevokeLinkedApp(appId appId: String, teamMemberId: String, keepAppFolder: Bool = true) -> RpcRequest<VoidSerializer, Team.RevokeLinkedAppErrorSerializer> {
+    open func linkedAppsRevokeLinkedApp(appId: String, teamMemberId: String, keepAppFolder: Bool = true) -> RpcRequest<VoidSerializer, Team.RevokeLinkedAppErrorSerializer> {
         let route = Team.linkedAppsRevokeLinkedApp
         let serverArgs = Team.RevokeLinkedApiAppArg(appId: appId, teamMemberId: teamMemberId, keepAppFolder: keepAppFolder)
         return client.request(route, serverArgs: serverArgs)
@@ -388,7 +388,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.RevokeLinkedAppBatchResult` object on
     /// success or a `Team.RevokeLinkedAppBatchError` object on failure.
-    public func linkedAppsRevokeLinkedAppBatch(revokeLinkedApp revokeLinkedApp: Array<Team.RevokeLinkedApiAppArg>) -> RpcRequest<Team.RevokeLinkedAppBatchResultSerializer, Team.RevokeLinkedAppBatchErrorSerializer> {
+    open func linkedAppsRevokeLinkedAppBatch(revokeLinkedApp: Array<Team.RevokeLinkedApiAppArg>) -> RpcRequest<Team.RevokeLinkedAppBatchResultSerializer, Team.RevokeLinkedAppBatchErrorSerializer> {
         let route = Team.linkedAppsRevokeLinkedAppBatch
         let serverArgs = Team.RevokeLinkedApiAppBatchArg(revokeLinkedApp: revokeLinkedApp)
         return client.request(route, serverArgs: serverArgs)
@@ -407,7 +407,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.MembersAddLaunch` object on success
     /// or a `Void` object on failure.
-    public func membersAdd(newMembers newMembers: Array<Team.MemberAddArg>, forceAsync: Bool = false) -> RpcRequest<Team.MembersAddLaunchSerializer, VoidSerializer> {
+    open func membersAdd(newMembers: Array<Team.MemberAddArg>, forceAsync: Bool = false) -> RpcRequest<Team.MembersAddLaunchSerializer, VoidSerializer> {
         let route = Team.membersAdd
         let serverArgs = Team.MembersAddArg(newMembers: newMembers, forceAsync: forceAsync)
         return client.request(route, serverArgs: serverArgs)
@@ -421,7 +421,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.MembersAddJobStatus` object on
     /// success or a `Async.PollError` object on failure.
-    public func membersAddJobStatusGet(asyncJobId asyncJobId: String) -> RpcRequest<Team.MembersAddJobStatusSerializer, Async.PollErrorSerializer> {
+    open func membersAddJobStatusGet(asyncJobId: String) -> RpcRequest<Team.MembersAddJobStatusSerializer, Async.PollErrorSerializer> {
         let route = Team.membersAddJobStatusGet
         let serverArgs = Async.PollArg(asyncJobId: asyncJobId)
         return client.request(route, serverArgs: serverArgs)
@@ -434,7 +434,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Array<Team.MembersGetInfoItem>` object on
     /// success or a `Team.MembersGetInfoError` object on failure.
-    public func membersGetInfo(members members: Array<Team.UserSelectorArg>) -> RpcRequest<ArraySerializer<Team.MembersGetInfoItemSerializer>, Team.MembersGetInfoErrorSerializer> {
+    open func membersGetInfo(members: Array<Team.UserSelectorArg>) -> RpcRequest<ArraySerializer<Team.MembersGetInfoItemSerializer>, Team.MembersGetInfoErrorSerializer> {
         let route = Team.membersGetInfo
         let serverArgs = Team.MembersGetInfoArgs(members: members)
         return client.request(route, serverArgs: serverArgs)
@@ -447,7 +447,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.MembersListResult` object on success
     /// or a `Team.MembersListError` object on failure.
-    public func membersList(limit: UInt32 = 1000, includeRemoved: Bool = false) -> RpcRequest<Team.MembersListResultSerializer, Team.MembersListErrorSerializer> {
+    open func membersList(_ limit: UInt32 = 1000, includeRemoved: Bool = false) -> RpcRequest<Team.MembersListResultSerializer, Team.MembersListErrorSerializer> {
         let route = Team.membersList
         let serverArgs = Team.MembersListArg(limit: limit, includeRemoved: includeRemoved)
         return client.request(route, serverArgs: serverArgs)
@@ -460,7 +460,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.MembersListResult` object on success
     /// or a `Team.MembersListContinueError` object on failure.
-    public func membersListContinue(cursor cursor: String) -> RpcRequest<Team.MembersListResultSerializer, Team.MembersListContinueErrorSerializer> {
+    open func membersListContinue(cursor: String) -> RpcRequest<Team.MembersListResultSerializer, Team.MembersListContinueErrorSerializer> {
         let route = Team.membersListContinue
         let serverArgs = Team.MembersListContinueArg(cursor: cursor)
         return client.request(route, serverArgs: serverArgs)
@@ -473,7 +473,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.MembersRecoverError` object on failure.
-    public func membersRecover(user user: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersRecoverErrorSerializer> {
+    open func membersRecover(user: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersRecoverErrorSerializer> {
         let route = Team.membersRecover
         let serverArgs = Team.MembersRecoverArg(user: user)
         return client.request(route, serverArgs: serverArgs)
@@ -494,7 +494,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Async.LaunchEmptyResult` object on success
     /// or a `Team.MembersRemoveError` object on failure.
-    public func membersRemove(user user: Team.UserSelectorArg, wipeData: Bool = true, transferDestId: Team.UserSelectorArg? = nil, transferAdminId: Team.UserSelectorArg? = nil, keepAccount: Bool = false) -> RpcRequest<Async.LaunchEmptyResultSerializer, Team.MembersRemoveErrorSerializer> {
+    open func membersRemove(user: Team.UserSelectorArg, wipeData: Bool = true, transferDestId: Team.UserSelectorArg? = nil, transferAdminId: Team.UserSelectorArg? = nil, keepAccount: Bool = false) -> RpcRequest<Async.LaunchEmptyResultSerializer, Team.MembersRemoveErrorSerializer> {
         let route = Team.membersRemove
         let serverArgs = Team.MembersRemoveArg(user: user, wipeData: wipeData, transferDestId: transferDestId, transferAdminId: transferAdminId, keepAccount: keepAccount)
         return client.request(route, serverArgs: serverArgs)
@@ -508,7 +508,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Async.PollEmptyResult` object on success
     /// or a `Async.PollError` object on failure.
-    public func membersRemoveJobStatusGet(asyncJobId asyncJobId: String) -> RpcRequest<Async.PollEmptyResultSerializer, Async.PollErrorSerializer> {
+    open func membersRemoveJobStatusGet(asyncJobId: String) -> RpcRequest<Async.PollEmptyResultSerializer, Async.PollErrorSerializer> {
         let route = Team.membersRemoveJobStatusGet
         let serverArgs = Async.PollArg(asyncJobId: asyncJobId)
         return client.request(route, serverArgs: serverArgs)
@@ -522,7 +522,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.MembersSendWelcomeError` object on failure.
-    public func membersSendWelcomeEmail(userSelectorArg userSelectorArg: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersSendWelcomeErrorSerializer> {
+    open func membersSendWelcomeEmail(userSelectorArg: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersSendWelcomeErrorSerializer> {
         let route = Team.membersSendWelcomeEmail
         let serverArgs = userSelectorArg
         return client.request(route, serverArgs: serverArgs)
@@ -535,7 +535,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.MembersSetPermissionsResult` object
     /// on success or a `Team.MembersSetPermissionsError` object on failure.
-    public func membersSetAdminPermissions(user user: Team.UserSelectorArg, newRole: Team.AdminTier) -> RpcRequest<Team.MembersSetPermissionsResultSerializer, Team.MembersSetPermissionsErrorSerializer> {
+    open func membersSetAdminPermissions(user: Team.UserSelectorArg, newRole: Team.AdminTier) -> RpcRequest<Team.MembersSetPermissionsResultSerializer, Team.MembersSetPermissionsErrorSerializer> {
         let route = Team.membersSetAdminPermissions
         let serverArgs = Team.MembersSetPermissionsArg(user: user, newRole: newRole)
         return client.request(route, serverArgs: serverArgs)
@@ -551,7 +551,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.TeamMemberInfo` object on success or
     /// a `Team.MembersSetProfileError` object on failure.
-    public func membersSetProfile(user user: Team.UserSelectorArg, newEmail: String? = nil, newExternalId: String? = nil, newGivenName: String? = nil, newSurname: String? = nil) -> RpcRequest<Team.TeamMemberInfoSerializer, Team.MembersSetProfileErrorSerializer> {
+    open func membersSetProfile(user: Team.UserSelectorArg, newEmail: String? = nil, newExternalId: String? = nil, newGivenName: String? = nil, newSurname: String? = nil) -> RpcRequest<Team.TeamMemberInfoSerializer, Team.MembersSetProfileErrorSerializer> {
         let route = Team.membersSetProfile
         let serverArgs = Team.MembersSetProfileArg(user: user, newEmail: newEmail, newExternalId: newExternalId, newGivenName: newGivenName, newSurname: newSurname)
         return client.request(route, serverArgs: serverArgs)
@@ -565,7 +565,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.MembersSuspendError` object on failure.
-    public func membersSuspend(user user: Team.UserSelectorArg, wipeData: Bool = true) -> RpcRequest<VoidSerializer, Team.MembersSuspendErrorSerializer> {
+    open func membersSuspend(user: Team.UserSelectorArg, wipeData: Bool = true) -> RpcRequest<VoidSerializer, Team.MembersSuspendErrorSerializer> {
         let route = Team.membersSuspend
         let serverArgs = Team.MembersDeactivateArg(user: user, wipeData: wipeData)
         return client.request(route, serverArgs: serverArgs)
@@ -578,7 +578,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Void` object on success or a
     /// `Team.MembersUnsuspendError` object on failure.
-    public func membersUnsuspend(user user: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersUnsuspendErrorSerializer> {
+    open func membersUnsuspend(user: Team.UserSelectorArg) -> RpcRequest<VoidSerializer, Team.MembersUnsuspendErrorSerializer> {
         let route = Team.membersUnsuspend
         let serverArgs = Team.MembersUnsuspendArg(user: user)
         return client.request(route, serverArgs: serverArgs)
@@ -589,7 +589,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.AddPropertyTemplateResult` object on
     /// success or a `Properties.ModifyPropertyTemplateError` object on failure.
-    public func propertiesTemplateAdd(name name: String, description_: String, fields: Array<Properties.PropertyFieldTemplate>) -> RpcRequest<Team.AddPropertyTemplateResultSerializer, Properties.ModifyPropertyTemplateErrorSerializer> {
+    open func propertiesTemplateAdd(name: String, description_: String, fields: Array<Properties.PropertyFieldTemplate>) -> RpcRequest<Team.AddPropertyTemplateResultSerializer, Properties.ModifyPropertyTemplateErrorSerializer> {
         let route = Team.propertiesTemplateAdd
         let serverArgs = Team.AddPropertyTemplateArg(name: name, description_: description_, fields: fields)
         return client.request(route, serverArgs: serverArgs)
@@ -601,7 +601,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Properties.GetPropertyTemplateResult`
     /// object on success or a `Properties.PropertyTemplateError` object on failure.
-    public func propertiesTemplateGet(templateId templateId: String) -> RpcRequest<Properties.GetPropertyTemplateResultSerializer, Properties.PropertyTemplateErrorSerializer> {
+    open func propertiesTemplateGet(templateId: String) -> RpcRequest<Properties.GetPropertyTemplateResultSerializer, Properties.PropertyTemplateErrorSerializer> {
         let route = Team.propertiesTemplateGet
         let serverArgs = Properties.GetPropertyTemplateArg(templateId: templateId)
         return client.request(route, serverArgs: serverArgs)
@@ -612,7 +612,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Properties.ListPropertyTemplateIds` object
     /// on success or a `Properties.PropertyTemplateError` object on failure.
-    public func propertiesTemplateList() -> RpcRequest<Properties.ListPropertyTemplateIdsSerializer, Properties.PropertyTemplateErrorSerializer> {
+    open func propertiesTemplateList() -> RpcRequest<Properties.ListPropertyTemplateIdsSerializer, Properties.PropertyTemplateErrorSerializer> {
         let route = Team.propertiesTemplateList
         return client.request(route)
     }
@@ -629,7 +629,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.UpdatePropertyTemplateResult` object
     /// on success or a `Properties.ModifyPropertyTemplateError` object on failure.
-    public func propertiesTemplateUpdate(templateId templateId: String, name: String? = nil, description_: String? = nil, addFields: Array<Properties.PropertyFieldTemplate>? = nil) -> RpcRequest<Team.UpdatePropertyTemplateResultSerializer, Properties.ModifyPropertyTemplateErrorSerializer> {
+    open func propertiesTemplateUpdate(templateId: String, name: String? = nil, description_: String? = nil, addFields: Array<Properties.PropertyFieldTemplate>? = nil) -> RpcRequest<Team.UpdatePropertyTemplateResultSerializer, Properties.ModifyPropertyTemplateErrorSerializer> {
         let route = Team.propertiesTemplateUpdate
         let serverArgs = Team.UpdatePropertyTemplateArg(templateId: templateId, name: name, description_: description_, addFields: addFields)
         return client.request(route, serverArgs: serverArgs)
@@ -642,7 +642,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GetActivityReport` object on success
     /// or a `Team.DateRangeError` object on failure.
-    public func reportsGetActivity(startDate: NSDate? = nil, endDate: NSDate? = nil) -> RpcRequest<Team.GetActivityReportSerializer, Team.DateRangeErrorSerializer> {
+    open func reportsGetActivity(_ startDate: Date? = nil, endDate: Date? = nil) -> RpcRequest<Team.GetActivityReportSerializer, Team.DateRangeErrorSerializer> {
         let route = Team.reportsGetActivity
         let serverArgs = Team.DateRange(startDate: startDate, endDate: endDate)
         return client.request(route, serverArgs: serverArgs)
@@ -655,7 +655,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GetDevicesReport` object on success
     /// or a `Team.DateRangeError` object on failure.
-    public func reportsGetDevices(startDate: NSDate? = nil, endDate: NSDate? = nil) -> RpcRequest<Team.GetDevicesReportSerializer, Team.DateRangeErrorSerializer> {
+    open func reportsGetDevices(_ startDate: Date? = nil, endDate: Date? = nil) -> RpcRequest<Team.GetDevicesReportSerializer, Team.DateRangeErrorSerializer> {
         let route = Team.reportsGetDevices
         let serverArgs = Team.DateRange(startDate: startDate, endDate: endDate)
         return client.request(route, serverArgs: serverArgs)
@@ -668,7 +668,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GetMembershipReport` object on
     /// success or a `Team.DateRangeError` object on failure.
-    public func reportsGetMembership(startDate: NSDate? = nil, endDate: NSDate? = nil) -> RpcRequest<Team.GetMembershipReportSerializer, Team.DateRangeErrorSerializer> {
+    open func reportsGetMembership(_ startDate: Date? = nil, endDate: Date? = nil) -> RpcRequest<Team.GetMembershipReportSerializer, Team.DateRangeErrorSerializer> {
         let route = Team.reportsGetMembership
         let serverArgs = Team.DateRange(startDate: startDate, endDate: endDate)
         return client.request(route, serverArgs: serverArgs)
@@ -681,7 +681,7 @@ public class TeamRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Team.GetStorageReport` object on success
     /// or a `Team.DateRangeError` object on failure.
-    public func reportsGetStorage(startDate: NSDate? = nil, endDate: NSDate? = nil) -> RpcRequest<Team.GetStorageReportSerializer, Team.DateRangeErrorSerializer> {
+    open func reportsGetStorage(_ startDate: Date? = nil, endDate: Date? = nil) -> RpcRequest<Team.GetStorageReportSerializer, Team.DateRangeErrorSerializer> {
         let route = Team.reportsGetStorage
         let serverArgs = Team.DateRange(startDate: startDate, endDate: endDate)
         return client.request(route, serverArgs: serverArgs)

@@ -5,31 +5,31 @@
 import Foundation
 
 /// Datatypes and serializers for the properties namespace
-public class Properties {
+open class Properties {
     /// The GetPropertyTemplateArg struct
-    public class GetPropertyTemplateArg: CustomStringConvertible {
+    open class GetPropertyTemplateArg: CustomStringConvertible {
         /// An identifier for property template added by route properties/template/add.
-        public let templateId: String
+        open let templateId: String
         public init(templateId: String) {
             stringValidator(minLength: 1, pattern: "(/|ptid:).*")(templateId)
             self.templateId = templateId
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(GetPropertyTemplateArgSerializer().serialize(self)))"
         }
     }
-    public class GetPropertyTemplateArgSerializer: JSONSerializer {
+    open class GetPropertyTemplateArgSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: GetPropertyTemplateArg) -> JSON {
+        open func serialize(_ value: GetPropertyTemplateArg) -> JSON {
             let output = [ 
             "template_id": Serialization._StringSerializer.serialize(value.templateId),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> GetPropertyTemplateArg {
+        open func deserialize(_ json: JSON) -> GetPropertyTemplateArg {
             switch json {
-                case .Dictionary(let dict):
-                    let templateId = Serialization._StringSerializer.deserialize(dict["template_id"] ?? .Null)
+                case .dictionary(let dict):
+                    let templateId = Serialization._StringSerializer.deserialize(dict["template_id"] ?? .null)
                     return GetPropertyTemplateArg(templateId: templateId)
                 default:
                     fatalError("Type error deserializing")
@@ -38,14 +38,14 @@ public class Properties {
     }
 
     /// Describes property templates that can be filled and associated with a file.
-    public class PropertyGroupTemplate: CustomStringConvertible {
+    open class PropertyGroupTemplate: CustomStringConvertible {
         /// A display name for the property template. Property template names can be up to 256 bytes.
-        public let name: String
+        open let name: String
         /// Description for new property template. Property template descriptions can be up to 1024 bytes.
-        public let description_: String
+        open let description_: String
         /// This is a list of custom properties associated with a property template. There can be up to 64 properties in
         /// a single property template.
-        public let fields: Array<Properties.PropertyFieldTemplate>
+        open let fields: Array<Properties.PropertyFieldTemplate>
         public init(name: String, description_: String, fields: Array<Properties.PropertyFieldTemplate>) {
             stringValidator()(name)
             self.name = name
@@ -53,26 +53,26 @@ public class Properties {
             self.description_ = description_
             self.fields = fields
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyGroupTemplateSerializer().serialize(self)))"
         }
     }
-    public class PropertyGroupTemplateSerializer: JSONSerializer {
+    open class PropertyGroupTemplateSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyGroupTemplate) -> JSON {
+        open func serialize(_ value: PropertyGroupTemplate) -> JSON {
             let output = [ 
             "name": Serialization._StringSerializer.serialize(value.name),
             "description": Serialization._StringSerializer.serialize(value.description_),
             "fields": ArraySerializer(Properties.PropertyFieldTemplateSerializer()).serialize(value.fields),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> PropertyGroupTemplate {
+        open func deserialize(_ json: JSON) -> PropertyGroupTemplate {
             switch json {
-                case .Dictionary(let dict):
-                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .Null)
-                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .Null)
-                    let fields = ArraySerializer(Properties.PropertyFieldTemplateSerializer()).deserialize(dict["fields"] ?? .Null)
+                case .dictionary(let dict):
+                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .null)
+                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .null)
+                    let fields = ArraySerializer(Properties.PropertyFieldTemplateSerializer()).deserialize(dict["fields"] ?? .null)
                     return PropertyGroupTemplate(name: name, description_: description_, fields: fields)
                 default:
                     fatalError("Type error deserializing")
@@ -81,27 +81,27 @@ public class Properties {
     }
 
     /// The Property template for the specified template.
-    public class GetPropertyTemplateResult: Properties.PropertyGroupTemplate {
-        public override var description: String {
+    open class GetPropertyTemplateResult: Properties.PropertyGroupTemplate {
+        open override var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(GetPropertyTemplateResultSerializer().serialize(self)))"
         }
     }
-    public class GetPropertyTemplateResultSerializer: JSONSerializer {
+    open class GetPropertyTemplateResultSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: GetPropertyTemplateResult) -> JSON {
+        open func serialize(_ value: GetPropertyTemplateResult) -> JSON {
             let output = [ 
             "name": Serialization._StringSerializer.serialize(value.name),
             "description": Serialization._StringSerializer.serialize(value.description_),
             "fields": ArraySerializer(Properties.PropertyFieldTemplateSerializer()).serialize(value.fields),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> GetPropertyTemplateResult {
+        open func deserialize(_ json: JSON) -> GetPropertyTemplateResult {
             switch json {
-                case .Dictionary(let dict):
-                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .Null)
-                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .Null)
-                    let fields = ArraySerializer(Properties.PropertyFieldTemplateSerializer()).deserialize(dict["fields"] ?? .Null)
+                case .dictionary(let dict):
+                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .null)
+                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .null)
+                    let fields = ArraySerializer(Properties.PropertyFieldTemplateSerializer()).deserialize(dict["fields"] ?? .null)
                     return GetPropertyTemplateResult(name: name, description_: description_, fields: fields)
                 default:
                     fatalError("Type error deserializing")
@@ -110,29 +110,29 @@ public class Properties {
     }
 
     /// The ListPropertyTemplateIds struct
-    public class ListPropertyTemplateIds: CustomStringConvertible {
+    open class ListPropertyTemplateIds: CustomStringConvertible {
         /// List of identifiers for templates added by route properties/template/add.
-        public let templateIds: Array<String>
+        open let templateIds: Array<String>
         public init(templateIds: Array<String>) {
             arrayValidator(itemValidator: stringValidator(minLength: 1, pattern: "(/|ptid:).*"))(templateIds)
             self.templateIds = templateIds
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(ListPropertyTemplateIdsSerializer().serialize(self)))"
         }
     }
-    public class ListPropertyTemplateIdsSerializer: JSONSerializer {
+    open class ListPropertyTemplateIdsSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: ListPropertyTemplateIds) -> JSON {
+        open func serialize(_ value: ListPropertyTemplateIds) -> JSON {
             let output = [ 
             "template_ids": ArraySerializer(Serialization._StringSerializer).serialize(value.templateIds),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> ListPropertyTemplateIds {
+        open func deserialize(_ json: JSON) -> ListPropertyTemplateIds {
             switch json {
-                case .Dictionary(let dict):
-                    let templateIds = ArraySerializer(Serialization._StringSerializer).deserialize(dict["template_ids"] ?? .Null)
+                case .dictionary(let dict):
+                    let templateIds = ArraySerializer(Serialization._StringSerializer).deserialize(dict["template_ids"] ?? .null)
                     return ListPropertyTemplateIds(templateIds: templateIds)
                 default:
                     fatalError("Type error deserializing")
@@ -143,48 +143,48 @@ public class Properties {
     /// The PropertyTemplateError union
     public enum PropertyTemplateError: CustomStringConvertible {
         /// Property template does not exist for given identifier.
-        case TemplateNotFound(String)
+        case templateNotFound(String)
         /// You do not have the permissions to modify this property template.
-        case RestrictedContent
+        case restrictedContent
         /// An unspecified error.
-        case Other
+        case other
 
         public var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyTemplateErrorSerializer().serialize(self)))"
         }
     }
-    public class PropertyTemplateErrorSerializer: JSONSerializer {
+    open class PropertyTemplateErrorSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyTemplateError) -> JSON {
+        open func serialize(_ value: PropertyTemplateError) -> JSON {
             switch value {
-                case .TemplateNotFound(let arg):
+                case .templateNotFound(let arg):
                     var d = ["template_not_found": Serialization._StringSerializer.serialize(arg)]
-                    d[".tag"] = .Str("template_not_found")
-                    return .Dictionary(d)
-                case .RestrictedContent:
+                    d[".tag"] = .str("template_not_found")
+                    return .dictionary(d)
+                case .restrictedContent:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("restricted_content")
-                    return .Dictionary(d)
-                case .Other:
+                    d[".tag"] = .str("restricted_content")
+                    return .dictionary(d)
+                case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("other")
-                    return .Dictionary(d)
+                    d[".tag"] = .str("other")
+                    return .dictionary(d)
             }
         }
-        public func deserialize(json: JSON) -> PropertyTemplateError {
+        open func deserialize(_ json: JSON) -> PropertyTemplateError {
             switch json {
-                case .Dictionary(let d):
+                case .dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "template_not_found":
-                            let v = Serialization._StringSerializer.deserialize(d["template_not_found"] ?? .Null)
-                            return PropertyTemplateError.TemplateNotFound(v)
+                            let v = Serialization._StringSerializer.deserialize(d["template_not_found"] ?? .null)
+                            return PropertyTemplateError.templateNotFound(v)
                         case "restricted_content":
-                            return PropertyTemplateError.RestrictedContent
+                            return PropertyTemplateError.restrictedContent
                         case "other":
-                            return PropertyTemplateError.Other
+                            return PropertyTemplateError.other
                         default:
-                            return PropertyTemplateError.Other
+                            return PropertyTemplateError.other
                     }
                 default:
                     fatalError("Failed to deserialize")
@@ -195,78 +195,78 @@ public class Properties {
     /// The ModifyPropertyTemplateError union
     public enum ModifyPropertyTemplateError: CustomStringConvertible {
         /// Property template does not exist for given identifier.
-        case TemplateNotFound(String)
+        case templateNotFound(String)
         /// You do not have the permissions to modify this property template.
-        case RestrictedContent
+        case restrictedContent
         /// An unspecified error.
-        case Other
+        case other
         /// A property field name already exists in the template.
-        case ConflictingPropertyNames
+        case conflictingPropertyNames
         /// There are too many properties in the changed template. The maximum number of properties per template is 32.
-        case TooManyProperties
+        case tooManyProperties
         /// There are too many templates for the team.
-        case TooManyTemplates
+        case tooManyTemplates
         /// The template name, description or field names is too large.
-        case TemplateAttributeTooLarge
+        case templateAttributeTooLarge
 
         public var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(ModifyPropertyTemplateErrorSerializer().serialize(self)))"
         }
     }
-    public class ModifyPropertyTemplateErrorSerializer: JSONSerializer {
+    open class ModifyPropertyTemplateErrorSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: ModifyPropertyTemplateError) -> JSON {
+        open func serialize(_ value: ModifyPropertyTemplateError) -> JSON {
             switch value {
-                case .TemplateNotFound(let arg):
+                case .templateNotFound(let arg):
                     var d = ["template_not_found": Serialization._StringSerializer.serialize(arg)]
-                    d[".tag"] = .Str("template_not_found")
-                    return .Dictionary(d)
-                case .RestrictedContent:
+                    d[".tag"] = .str("template_not_found")
+                    return .dictionary(d)
+                case .restrictedContent:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("restricted_content")
-                    return .Dictionary(d)
-                case .Other:
+                    d[".tag"] = .str("restricted_content")
+                    return .dictionary(d)
+                case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("other")
-                    return .Dictionary(d)
-                case .ConflictingPropertyNames:
+                    d[".tag"] = .str("other")
+                    return .dictionary(d)
+                case .conflictingPropertyNames:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("conflicting_property_names")
-                    return .Dictionary(d)
-                case .TooManyProperties:
+                    d[".tag"] = .str("conflicting_property_names")
+                    return .dictionary(d)
+                case .tooManyProperties:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("too_many_properties")
-                    return .Dictionary(d)
-                case .TooManyTemplates:
+                    d[".tag"] = .str("too_many_properties")
+                    return .dictionary(d)
+                case .tooManyTemplates:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("too_many_templates")
-                    return .Dictionary(d)
-                case .TemplateAttributeTooLarge:
+                    d[".tag"] = .str("too_many_templates")
+                    return .dictionary(d)
+                case .templateAttributeTooLarge:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("template_attribute_too_large")
-                    return .Dictionary(d)
+                    d[".tag"] = .str("template_attribute_too_large")
+                    return .dictionary(d)
             }
         }
-        public func deserialize(json: JSON) -> ModifyPropertyTemplateError {
+        open func deserialize(_ json: JSON) -> ModifyPropertyTemplateError {
             switch json {
-                case .Dictionary(let d):
+                case .dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "template_not_found":
-                            let v = Serialization._StringSerializer.deserialize(d["template_not_found"] ?? .Null)
-                            return ModifyPropertyTemplateError.TemplateNotFound(v)
+                            let v = Serialization._StringSerializer.deserialize(d["template_not_found"] ?? .null)
+                            return ModifyPropertyTemplateError.templateNotFound(v)
                         case "restricted_content":
-                            return ModifyPropertyTemplateError.RestrictedContent
+                            return ModifyPropertyTemplateError.restrictedContent
                         case "other":
-                            return ModifyPropertyTemplateError.Other
+                            return ModifyPropertyTemplateError.other
                         case "conflicting_property_names":
-                            return ModifyPropertyTemplateError.ConflictingPropertyNames
+                            return ModifyPropertyTemplateError.conflictingPropertyNames
                         case "too_many_properties":
-                            return ModifyPropertyTemplateError.TooManyProperties
+                            return ModifyPropertyTemplateError.tooManyProperties
                         case "too_many_templates":
-                            return ModifyPropertyTemplateError.TooManyTemplates
+                            return ModifyPropertyTemplateError.tooManyTemplates
                         case "template_attribute_too_large":
-                            return ModifyPropertyTemplateError.TemplateAttributeTooLarge
+                            return ModifyPropertyTemplateError.templateAttributeTooLarge
                         default:
                             fatalError("Unknown tag \(tag)")
                     }
@@ -277,36 +277,36 @@ public class Properties {
     }
 
     /// The PropertyField struct
-    public class PropertyField: CustomStringConvertible {
+    open class PropertyField: CustomStringConvertible {
         /// This is the name or key of a custom property in a property template. File property names can be up to 256
         /// bytes.
-        public let name: String
+        open let name: String
         /// Value of a custom property attached to a file. Values can be up to 1024 bytes.
-        public let value: String
+        open let value: String
         public init(name: String, value: String) {
             stringValidator()(name)
             self.name = name
             stringValidator()(value)
             self.value = value
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyFieldSerializer().serialize(self)))"
         }
     }
-    public class PropertyFieldSerializer: JSONSerializer {
+    open class PropertyFieldSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyField) -> JSON {
+        open func serialize(_ value: PropertyField) -> JSON {
             let output = [ 
             "name": Serialization._StringSerializer.serialize(value.name),
             "value": Serialization._StringSerializer.serialize(value.value),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> PropertyField {
+        open func deserialize(_ json: JSON) -> PropertyField {
             switch json {
-                case .Dictionary(let dict):
-                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .Null)
-                    let value = Serialization._StringSerializer.deserialize(dict["value"] ?? .Null)
+                case .dictionary(let dict):
+                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .null)
+                    let value = Serialization._StringSerializer.deserialize(dict["value"] ?? .null)
                     return PropertyField(name: name, value: value)
                 default:
                     fatalError("Type error deserializing")
@@ -315,16 +315,16 @@ public class Properties {
     }
 
     /// Describe a single property field type which that can be part of a property template.
-    public class PropertyFieldTemplate: CustomStringConvertible {
+    open class PropertyFieldTemplate: CustomStringConvertible {
         /// This is the name or key of a custom property in a property template. File property names can be up to 256
         /// bytes.
-        public let name: String
+        open let name: String
         /// This is the description for a custom property in a property template. File property description can be up to
         /// 1024 bytes.
-        public let description_: String
+        open let description_: String
         /// This is the data type of the value of this property. This type will be enforced upon property creation and
         /// modifications.
-        public let type: Properties.PropertyType
+        open let type: Properties.PropertyType
         public init(name: String, description_: String, type: Properties.PropertyType) {
             stringValidator()(name)
             self.name = name
@@ -332,26 +332,26 @@ public class Properties {
             self.description_ = description_
             self.type = type
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyFieldTemplateSerializer().serialize(self)))"
         }
     }
-    public class PropertyFieldTemplateSerializer: JSONSerializer {
+    open class PropertyFieldTemplateSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyFieldTemplate) -> JSON {
+        open func serialize(_ value: PropertyFieldTemplate) -> JSON {
             let output = [ 
             "name": Serialization._StringSerializer.serialize(value.name),
             "description": Serialization._StringSerializer.serialize(value.description_),
             "type": Properties.PropertyTypeSerializer().serialize(value.type),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> PropertyFieldTemplate {
+        open func deserialize(_ json: JSON) -> PropertyFieldTemplate {
             switch json {
-                case .Dictionary(let dict):
-                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .Null)
-                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .Null)
-                    let type = Properties.PropertyTypeSerializer().deserialize(dict["type"] ?? .Null)
+                case .dictionary(let dict):
+                    let name = Serialization._StringSerializer.deserialize(dict["name"] ?? .null)
+                    let description_ = Serialization._StringSerializer.deserialize(dict["description"] ?? .null)
+                    let type = Properties.PropertyTypeSerializer().deserialize(dict["type"] ?? .null)
                     return PropertyFieldTemplate(name: name, description_: description_, type: type)
                 default:
                     fatalError("Type error deserializing")
@@ -360,34 +360,34 @@ public class Properties {
     }
 
     /// Collection of custom properties in filled property templates.
-    public class PropertyGroup: CustomStringConvertible {
+    open class PropertyGroup: CustomStringConvertible {
         /// A unique identifier for a property template type.
-        public let templateId: String
+        open let templateId: String
         /// This is a list of custom properties associated with a file. There can be up to 32 properties for a template.
-        public let fields: Array<Properties.PropertyField>
+        open let fields: Array<Properties.PropertyField>
         public init(templateId: String, fields: Array<Properties.PropertyField>) {
             stringValidator(minLength: 1, pattern: "(/|ptid:).*")(templateId)
             self.templateId = templateId
             self.fields = fields
         }
-        public var description: String {
+        open var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyGroupSerializer().serialize(self)))"
         }
     }
-    public class PropertyGroupSerializer: JSONSerializer {
+    open class PropertyGroupSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyGroup) -> JSON {
+        open func serialize(_ value: PropertyGroup) -> JSON {
             let output = [ 
             "template_id": Serialization._StringSerializer.serialize(value.templateId),
             "fields": ArraySerializer(Properties.PropertyFieldSerializer()).serialize(value.fields),
             ]
-            return .Dictionary(output)
+            return .dictionary(output)
         }
-        public func deserialize(json: JSON) -> PropertyGroup {
+        open func deserialize(_ json: JSON) -> PropertyGroup {
             switch json {
-                case .Dictionary(let dict):
-                    let templateId = Serialization._StringSerializer.deserialize(dict["template_id"] ?? .Null)
-                    let fields = ArraySerializer(Properties.PropertyFieldSerializer()).deserialize(dict["fields"] ?? .Null)
+                case .dictionary(let dict):
+                    let templateId = Serialization._StringSerializer.deserialize(dict["template_id"] ?? .null)
+                    let fields = ArraySerializer(Properties.PropertyFieldSerializer()).deserialize(dict["fields"] ?? .null)
                     return PropertyGroup(templateId: templateId, fields: fields)
                 default:
                     fatalError("Type error deserializing")
@@ -399,39 +399,39 @@ public class Properties {
     /// supported.
     public enum PropertyType: CustomStringConvertible {
         /// The associated property will be of type string. Unicode is supported.
-        case String_
+        case string_
         /// An unspecified error.
-        case Other
+        case other
 
         public var description: String {
             return "\(SerializeUtil.prepareJSONForSerialization(PropertyTypeSerializer().serialize(self)))"
         }
     }
-    public class PropertyTypeSerializer: JSONSerializer {
+    open class PropertyTypeSerializer: JSONSerializer {
         public init() { }
-        public func serialize(value: PropertyType) -> JSON {
+        open func serialize(_ value: PropertyType) -> JSON {
             switch value {
-                case .String_:
+                case .string_:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("string")
-                    return .Dictionary(d)
-                case .Other:
+                    d[".tag"] = .str("string")
+                    return .dictionary(d)
+                case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .Str("other")
-                    return .Dictionary(d)
+                    d[".tag"] = .str("other")
+                    return .dictionary(d)
             }
         }
-        public func deserialize(json: JSON) -> PropertyType {
+        open func deserialize(_ json: JSON) -> PropertyType {
             switch json {
-                case .Dictionary(let d):
+                case .dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "string":
-                            return PropertyType.String_
+                            return PropertyType.string_
                         case "other":
-                            return PropertyType.Other
+                            return PropertyType.other
                         default:
-                            return PropertyType.Other
+                            return PropertyType.other
                     }
                 default:
                     fatalError("Failed to deserialize")
