@@ -87,13 +87,13 @@ open class Auth {
             "reason": Auth.RateLimitReasonSerializer().serialize(value.reason),
             "retry_after": Serialization._UInt64Serializer.serialize(value: value.retryAfter),
             ]
-            return .dictionary(output)
+            return .Dictionary(output)
         }
         open func deserialize(_ json: JSON) -> RateLimitError {
             switch json {
-                case .dictionary(let dict):
-                    let reason = Auth.RateLimitReasonSerializer().deserialize(dict["reason"] ?? .null)
-                    let retryAfter = Serialization._UInt64Serializer.deserialize(dict["retry_after"] ?? .null)
+                case .Dictionary(let dict):
+                    let reason = Auth.RateLimitReasonSerializer().deserialize(dict["reason"] ?? .Null)
+                    let retryAfter = Serialization._UInt64Serializer.deserialize(json: dict["retry_after"] ?? .Null)
                     return RateLimitError(reason: reason, retryAfter: retryAfter)
                 default:
                     fatalError("Type error deserializing")
@@ -134,8 +134,8 @@ open class Auth {
         }
         open func deserialize(_ json: JSON) -> RateLimitReason {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d: d)
                     switch tag {
                         case "too_many_requests":
                             return RateLimitReason.tooManyRequests

@@ -363,7 +363,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
             case 401:
                 let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
-                case .dictionary(let d):
+                case .Dictionary(let d):
                     return .authError(Auth.AuthErrorSerializer().deserialize(d["error"]!), requestId)
                 default:
                     fatalError("Failed to parse error type")
@@ -371,7 +371,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
             case 403, 404, 409:
                 let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
-                case .dictionary(let d):
+                case .Dictionary(let d):
                     return .routeError(Box(self.errorSerializer.deserialize(d["error"]!)), requestId)
                 default:
                     fatalError("Failed to parse error type")
@@ -379,7 +379,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
             case 429:
                 let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
-                case .dictionary(let d):
+                case .Dictionary(let d):
                     return .rateLimitError(Auth.RateLimitErrorSerializer().deserialize(d["error"]!), requestId)
                 default:
                     fatalError("Failed to parse error type")

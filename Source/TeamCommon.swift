@@ -25,21 +25,21 @@ open class TeamCommon {
             switch value {
                 case .companyManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("company_managed")
+                    d[".tag"] = .Str("company_managed")
                     return .Dictionary(d)
                 case .userManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("user_managed")
+                    d[".tag"] = .Str("user_managed")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> GroupManagementType {
             switch json {
-                case .dictionary(let d):
+                case .Dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "company_managed":
@@ -94,11 +94,11 @@ open class TeamCommon {
             "group_external_id": NullableSerializer(Serialization._StringSerializer).serialize(value.groupExternalId),
             "member_count": NullableSerializer(Serialization._UInt32Serializer).serialize(value.memberCount),
             ]
-            return .dictionary(output)
+            return .Dictionary(output)
         }
         open func deserialize(_ json: JSON) -> GroupSummary {
             switch json {
-                case .dictionary(let dict):
+                case .Dictionary(let dict):
                     let groupName = Serialization._StringSerializer.deserialize(dict["group_name"] ?? .null)
                     let groupId = Serialization._StringSerializer.deserialize(dict["group_id"] ?? .null)
                     let groupManagementType = TeamCommon.GroupManagementTypeSerializer().deserialize(dict["group_management_type"] ?? .null)
@@ -131,21 +131,21 @@ open class TeamCommon {
             switch value {
                 case .team:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("team")
+                    d[".tag"] = .Str("team")
                     return .Dictionary(d)
                 case .userManaged:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("user_managed")
+                    d[".tag"] = .Str("user_managed")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> GroupType {
             switch json {
-                case .dictionary(let d):
+                case .Dictionary(let d):
                     let tag = Serialization.getTag(d)
                     switch tag {
                         case "team":

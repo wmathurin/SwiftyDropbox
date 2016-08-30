@@ -81,18 +81,18 @@ public class SerializeUtil {
 
 public protocol JSONSerializer {
     associatedtype ValueType
-    func serialize(_: ValueType) -> JSON
-    func deserialize(_: JSON) -> ValueType
+    func serialize(value: ValueType) -> JSON
+    func deserialize(json: JSON) -> ValueType
 }
 
 public class VoidSerializer: JSONSerializer {
-    typealias ValueType = <#type#>
+    public typealias ValueType = Void
 
-    public func serialize(value: Void) -> JSON {
+    public func serialize(value: ValueType) -> JSON {
         return .Null
     }
     
-    public func deserialize(json: JSON) -> Void {
+    public func deserialize(json: JSON) -> ValueType {
         switch json {
         case .Null:
             return
@@ -104,9 +104,7 @@ public class VoidSerializer: JSONSerializer {
 }
 
 
-p
-typealias ValueType = <#type#>
-ublic class ArraySerializer<T: JSONSerializer>: JSONSerializer {
+public class ArraySerializer<T: JSONSerializer>: JSONSerializer {
     
     var elementSerializer: T
     
@@ -128,9 +126,7 @@ ublic class ArraySerializer<T: JSONSerializer>: JSONSerializer {
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class StringSerializer: JSONSerializer {
+public class StringSerializer: JSONSerializer {
     public func serialize(value: String) -> JSON {
         return .Str(value)
     }
@@ -218,7 +214,7 @@ public class NSDateSerializer: JSONSerializer {
                     newFormat += "'"
                     inQuotedText = false
                 }
-                newFormat += symbolForToktoken: en(token)
+                newFormat += symbolForToken(token:token)
             } else {
                 if "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".characters.contains(format[i]) {
                     if !inQuotedText {
@@ -259,9 +255,7 @@ public class NSDateSerializer: JSONSerializer {
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class BoolSerializer: JSONSerializer {
+public class BoolSerializer: JSONSerializer {
     public func serialize(value: Bool) -> JSON {
         return .Number(NSNumber(bool: value))
     }
@@ -290,9 +284,7 @@ public class UInt64Serializer: JSONSerializer {
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class Int64Serializer: JSONSerializer {
+public class Int64Serializer: JSONSerializer {
     public func serialize(value: Int64) -> JSON {
         return .Number(NSNumber(longLong: value))
     }
@@ -307,9 +299,7 @@ blic class Int64Serializer: JSONSerializer {
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class Int32Serializer: JSONSerializer {
+public class Int32Serializer: JSONSerializer {
     public func serialize(value: Int32) -> JSON {
         return .Number(NSNumber(int: value))
     }
@@ -323,9 +313,8 @@ blic class Int32Serializer: JSONSerializer {
         }
     }
 }
-public
-typealias ValueType = <#type#>
- class UInt32Serializer: JSONSerializer {
+
+public class UInt32Serializer: JSONSerializer {
     public func serialize(value: UInt32) -> JSON {
         return .Number(NSNumber(unsignedInt: value))
     }
@@ -340,9 +329,7 @@ typealias ValueType = <#type#>
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class NSDataSerializer: JSONSerializer {
+public class NSDataSerializer: JSONSerializer {
     public func serialize(value: NSData) -> JSON {
         return .Str(value.base64EncodedString(options: []))
     }
@@ -357,9 +344,7 @@ blic class NSDataSerializer: JSONSerializer {
     }
 }
 
-pu
-typealias ValueType = <#type#>
-blic class DoubleSerializer: JSONSerializer {
+public class DoubleSerializer: JSONSerializer {
     public func serialize(value: Double) -> JSON {
         return .Number(NSNumber(double: value))
     }
@@ -375,9 +360,7 @@ blic class DoubleSerializer: JSONSerializer {
 }
 
 
-p
-typealias ValueType = <#type#>
-ublic class NullableSerializer<T: JSONSerializer>: JSONSerializer {
+public class NullableSerializer<T: JSONSerializer>: JSONSerializer {
     
     var internalSerializer: T
     
@@ -425,7 +408,7 @@ struct Serialization {
     }
 
     static func getTag(d: [String: JSON]) -> String {
- json:        return _StringSerializer.deserialize(d[".tag"]!)
+        return _StringSerializer.deserialize(d[".tag"]!)
     }
 
 }

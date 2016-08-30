@@ -27,26 +27,26 @@ open class TeamPolicies {
             switch value {
                 case .disabled:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("disabled")
+                    d[".tag"] = .Str("disabled")
                     return .Dictionary(d)
                 case .optional:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("optional")
+                    d[".tag"] = .Str("optional")
                     return .Dictionary(d)
                 case .required:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("required")
+                    d[".tag"] = .Str("required")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> EmmState {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d: d)
                     switch tag {
                         case "disabled":
                             return EmmState.disabled
@@ -84,22 +84,22 @@ open class TeamPolicies {
             switch value {
                 case .fromTeamOnly:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("from_team_only")
+                    d[".tag"] = .Str("from_team_only")
                     return .Dictionary(d)
                 case .fromAnyone:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("from_anyone")
+                    d[".tag"] = .Str("from_anyone")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderJoinPolicy {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d: d)
                     switch tag {
                         case "from_team_only":
                             return SharedFolderJoinPolicy.fromTeamOnly
@@ -135,22 +135,22 @@ open class TeamPolicies {
             switch value {
                 case .team:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("team")
+                    d[".tag"] = .Str("team")
                     return .Dictionary(d)
                 case .anyone:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("anyone")
+                    d[".tag"] = .Str("anyone")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderMemberPolicy {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d: d)
                     switch tag {
                         case "team":
                             return SharedFolderMemberPolicy.team
@@ -191,26 +191,26 @@ open class TeamPolicies {
             switch value {
                 case .defaultPublic:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("default_public")
+                    d[".tag"] = .Str("default_public")
                     return .Dictionary(d)
                 case .defaultTeamOnly:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("default_team_only")
+                    d[".tag"] = .Str("default_team_only")
                     return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("team_only")
+                    d[".tag"] = .Str("team_only")
                     return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
+                    d[".tag"] = .Str("other")
                     return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedLinkCreatePolicy {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d: d)
                     switch tag {
                         case "default_public":
                             return SharedLinkCreatePolicy.defaultPublic
@@ -257,9 +257,9 @@ open class TeamPolicies {
         }
         open func deserialize(_ json: JSON) -> TeamMemberPolicies {
             switch json {
-                case .dictionary(let dict):
-                    let sharing = TeamPolicies.TeamSharingPoliciesSerializer().deserialize(dict["sharing"] ?? .null)
-                    let emmState = TeamPolicies.EmmStateSerializer().deserialize(dict["emm_state"] ?? .null)
+                case .Dictionary(let dict):
+                    let sharing = TeamPolicies.TeamSharingPoliciesSerializer().deserialize(dict["sharing"] ?? .Null)
+                    let emmState = TeamPolicies.EmmStateSerializer().deserialize(dict["emm_state"] ?? .Null)
                     return TeamMemberPolicies(sharing: sharing, emmState: emmState)
                 default:
                     fatalError("Type error deserializing")
@@ -296,10 +296,10 @@ open class TeamPolicies {
         }
         open func deserialize(_ json: JSON) -> TeamSharingPolicies {
             switch json {
-                case .dictionary(let dict):
-                    let sharedFolderMemberPolicy = TeamPolicies.SharedFolderMemberPolicySerializer().deserialize(dict["shared_folder_member_policy"] ?? .null)
-                    let sharedFolderJoinPolicy = TeamPolicies.SharedFolderJoinPolicySerializer().deserialize(dict["shared_folder_join_policy"] ?? .null)
-                    let sharedLinkCreatePolicy = TeamPolicies.SharedLinkCreatePolicySerializer().deserialize(dict["shared_link_create_policy"] ?? .null)
+                case .Dictionary(let dict):
+                    let sharedFolderMemberPolicy = TeamPolicies.SharedFolderMemberPolicySerializer().deserialize(dict["shared_folder_member_policy"] ?? .Null)
+                    let sharedFolderJoinPolicy = TeamPolicies.SharedFolderJoinPolicySerializer().deserialize(dict["shared_folder_join_policy"] ?? .Null)
+                    let sharedLinkCreatePolicy = TeamPolicies.SharedLinkCreatePolicySerializer().deserialize(dict["shared_link_create_policy"] ?? .Null)
                     return TeamSharingPolicies(sharedFolderMemberPolicy: sharedFolderMemberPolicy, sharedFolderJoinPolicy: sharedFolderJoinPolicy, sharedLinkCreatePolicy: sharedLinkCreatePolicy)
                 default:
                     fatalError("Type error deserializing")
