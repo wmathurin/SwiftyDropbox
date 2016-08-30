@@ -2847,7 +2847,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFileMembersErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFileMembersErrorSerializer().serialize(self)))"
         }
     }
     open class ListFileMembersErrorSerializer: JSONSerializer {
@@ -2857,15 +2857,15 @@ open class Sharing {
                 case .userError(let arg):
                     var d = ["user_error": Sharing.SharingUserErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("user_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharingFileAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListFileMembersError {
@@ -2900,7 +2900,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFileMembersIndividualResultSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFileMembersIndividualResultSerializer().serialize(self)))"
         }
     }
     open class ListFileMembersIndividualResultSerializer: JSONSerializer {
@@ -2908,17 +2908,17 @@ open class Sharing {
         open func serialize(_ value: ListFileMembersIndividualResult) -> JSON {
             switch value {
                 case .result(let arg):
-                    var d = Serialization.getFields(Sharing.ListFileMembersCountResultSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.ListFileMembersCountResultSerializer().serialize(arg))
                     d[".tag"] = .str("result")
                     return .dictionary(d)
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharingFileAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListFileMembersIndividualResult {
@@ -2955,14 +2955,14 @@ open class Sharing {
             self.actions = actions
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFilesArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFilesArgSerializer().serialize(self)))"
         }
     }
     open class ListFilesArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFilesArg) -> JSON {
             let output = [ 
-            "limit": Serialization._UInt32Serializer.serialize(value.limit),
+            "limit": Serialization._UInt32Serializer.serialize(value: value.limit),
             "actions": NullableSerializer(ArraySerializer(Sharing.FileActionSerializer())).serialize(value.actions),
             ]
             return .dictionary(output)
@@ -2988,14 +2988,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFilesContinueArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFilesContinueArgSerializer().serialize(self)))"
         }
     }
     open class ListFilesContinueArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFilesContinueArg) -> JSON {
             let output = [ 
-            "cursor": Serialization._StringSerializer.serialize(value.cursor),
+            "cursor": Serialization._StringSerializer.serialize(value: value.cursor),
             ]
             return .dictionary(output)
         }
@@ -3020,7 +3020,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFilesContinueErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFilesContinueErrorSerializer().serialize(self)))"
         }
     }
     open class ListFilesContinueErrorSerializer: JSONSerializer {
@@ -3030,15 +3030,15 @@ open class Sharing {
                 case .userError(let arg):
                     var d = ["user_error": Sharing.SharingUserErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("user_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .invalidCursor:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_cursor")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListFilesContinueError {
@@ -3074,14 +3074,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFilesResultSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFilesResultSerializer().serialize(self)))"
         }
     }
     open class ListFilesResultSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFilesResult) -> JSON {
             let output = [ 
-            "entries": ArraySerializer(Sharing.SharedFileMetadataSerializer()).serialize(value.entries),
+            "entries": ArraySerializer(Sharing.SharedFileMetadataSerializer()).serialize(arr: value.entries),
             "cursor": NullableSerializer(Serialization._StringSerializer).serialize(value.cursor),
             ]
             return .dictionary(output)
@@ -3111,7 +3111,7 @@ open class Sharing {
             self.limit = limit
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFolderMembersCursorArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFolderMembersCursorArgSerializer().serialize(self)))"
         }
     }
     open class ListFolderMembersCursorArgSerializer: JSONSerializer {
@@ -3145,14 +3145,14 @@ open class Sharing {
             super.init(actions: actions, limit: limit)
         }
         open override var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFolderMembersArgsSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFolderMembersArgsSerializer().serialize(self)))"
         }
     }
     open class ListFolderMembersArgsSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFolderMembersArgs) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "actions": NullableSerializer(ArraySerializer(Sharing.MemberActionSerializer())).serialize(value.actions),
             "limit": Serialization._UInt32Serializer.serialize(value.limit),
             ]
@@ -3180,14 +3180,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFolderMembersContinueArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFolderMembersContinueArgSerializer().serialize(self)))"
         }
     }
     open class ListFolderMembersContinueArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFolderMembersContinueArg) -> JSON {
             let output = [ 
-            "cursor": Serialization._StringSerializer.serialize(value.cursor),
+            "cursor": Serialization._StringSerializer.serialize(value: value.cursor),
             ]
             return .dictionary(output)
         }
@@ -3212,7 +3212,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFolderMembersContinueErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFolderMembersContinueErrorSerializer().serialize(self)))"
         }
     }
     open class ListFolderMembersContinueErrorSerializer: JSONSerializer {
@@ -3222,15 +3222,15 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .invalidCursor:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_cursor")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListFolderMembersContinueError {
@@ -3267,14 +3267,14 @@ open class Sharing {
             self.actions = actions
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFoldersArgsSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFoldersArgsSerializer().serialize(self)))"
         }
     }
     open class ListFoldersArgsSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFoldersArgs) -> JSON {
             let output = [ 
-            "limit": Serialization._UInt32Serializer.serialize(value.limit),
+            "limit": Serialization._UInt32Serializer.serialize(value: value.limit),
             "actions": NullableSerializer(ArraySerializer(Sharing.FolderActionSerializer())).serialize(value.actions),
             ]
             return .dictionary(output)
@@ -3300,14 +3300,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFoldersContinueArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFoldersContinueArgSerializer().serialize(self)))"
         }
     }
     open class ListFoldersContinueArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFoldersContinueArg) -> JSON {
             let output = [ 
-            "cursor": Serialization._StringSerializer.serialize(value.cursor),
+            "cursor": Serialization._StringSerializer.serialize(value: value.cursor),
             ]
             return .dictionary(output)
         }
@@ -3330,7 +3330,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFoldersContinueErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFoldersContinueErrorSerializer().serialize(self)))"
         }
     }
     open class ListFoldersContinueErrorSerializer: JSONSerializer {
@@ -3340,11 +3340,11 @@ open class Sharing {
                 case .invalidCursor:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_cursor")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListFoldersContinueError {
@@ -3380,14 +3380,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListFoldersResultSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListFoldersResultSerializer().serialize(self)))"
         }
     }
     open class ListFoldersResultSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListFoldersResult) -> JSON {
             let output = [ 
-            "entries": ArraySerializer(Sharing.SharedFolderMetadataSerializer()).serialize(value.entries),
+            "entries": ArraySerializer(Sharing.SharedFolderMetadataSerializer()).serialize(arr: value.entries),
             "cursor": NullableSerializer(Serialization._StringSerializer).serialize(value.cursor),
             ]
             return .dictionary(output)
@@ -3420,7 +3420,7 @@ open class Sharing {
             self.directOnly = directOnly
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListSharedLinksArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListSharedLinksArgSerializer().serialize(self)))"
         }
     }
     open class ListSharedLinksArgSerializer: JSONSerializer {
@@ -3456,7 +3456,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListSharedLinksErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListSharedLinksErrorSerializer().serialize(self)))"
         }
     }
     open class ListSharedLinksErrorSerializer: JSONSerializer {
@@ -3466,15 +3466,15 @@ open class Sharing {
                 case .path(let arg):
                     var d = ["path": Files.LookupErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("path")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .reset:
                     var d = [String: JSON]()
                     d[".tag"] = .str("reset")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ListSharedLinksError {
@@ -3515,14 +3515,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ListSharedLinksResultSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ListSharedLinksResultSerializer().serialize(self)))"
         }
     }
     open class ListSharedLinksResultSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ListSharedLinksResult) -> JSON {
             let output = [ 
-            "links": ArraySerializer(Sharing.SharedLinkMetadataSerializer()).serialize(value.links),
+            "links": ArraySerializer(Sharing.SharedLinkMetadataSerializer()).serialize(arr: value.links),
             "has_more": Serialization._BoolSerializer.serialize(value.hasMore),
             "cursor": NullableSerializer(Serialization._StringSerializer).serialize(value.cursor),
             ]
@@ -3557,14 +3557,14 @@ open class Sharing {
             self.accessDetails = accessDetails
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MemberAccessLevelResultSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MemberAccessLevelResultSerializer().serialize(self)))"
         }
     }
     open class MemberAccessLevelResultSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: MemberAccessLevelResult) -> JSON {
             let output = [ 
-            "access_level": NullableSerializer(Sharing.AccessLevelSerializer()).serialize(value.accessLevel),
+            "access_level": NullableSerializer(Sharing.AccessLevelSerializer()).serialize(value: value.accessLevel),
             "warning": NullableSerializer(Serialization._StringSerializer).serialize(value.warning),
             "access_details": NullableSerializer(ArraySerializer(Sharing.ParentFolderAccessInfoSerializer())).serialize(value.accessDetails),
             ]
@@ -3601,7 +3601,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MemberActionSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MemberActionSerializer().serialize(self)))"
         }
     }
     open class MemberActionSerializer: JSONSerializer {
@@ -3611,31 +3611,31 @@ open class Sharing {
                 case .leaveACopy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("leave_a_copy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .makeEditor:
                     var d = [String: JSON]()
                     d[".tag"] = .str("make_editor")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .makeOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("make_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .makeViewer:
                     var d = [String: JSON]()
                     d[".tag"] = .str("make_viewer")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .makeViewerNoComment:
                     var d = [String: JSON]()
                     d[".tag"] = .str("make_viewer_no_comment")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .remove:
                     var d = [String: JSON]()
                     d[".tag"] = .str("remove")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> MemberAction {
@@ -3680,7 +3680,7 @@ open class Sharing {
             self.reason = reason
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MemberPermissionSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MemberPermissionSerializer().serialize(self)))"
         }
     }
     open class MemberPermissionSerializer: JSONSerializer {
@@ -3688,7 +3688,7 @@ open class Sharing {
         open func serialize(_ value: MemberPermission) -> JSON {
             let output = [ 
             "action": Sharing.MemberActionSerializer().serialize(value.action),
-            "allow": Serialization._BoolSerializer.serialize(value.allow),
+            "allow": Serialization._BoolSerializer.serialize(value: value.allow),
             "reason": NullableSerializer(Sharing.PermissionDeniedReasonSerializer()).serialize(value.reason),
             ]
             return .dictionary(output)
@@ -3716,7 +3716,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MemberPolicySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MemberPolicySerializer().serialize(self)))"
         }
     }
     open class MemberPolicySerializer: JSONSerializer {
@@ -3726,15 +3726,15 @@ open class Sharing {
                 case .team:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .anyone:
                     var d = [String: JSON]()
                     d[".tag"] = .str("anyone")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> MemberPolicy {
@@ -3767,7 +3767,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MemberSelectorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MemberSelectorSerializer().serialize(self)))"
         }
     }
     open class MemberSelectorSerializer: JSONSerializer {
@@ -3775,17 +3775,17 @@ open class Sharing {
         open func serialize(_ value: MemberSelector) -> JSON {
             switch value {
                 case .dropboxId(let arg):
-                    var d = ["dropbox_id": Serialization._StringSerializer.serialize(arg)]
+                    var d = ["dropbox_id": Serialization._StringSerializer.serialize(value: arg)]
                     d[".tag"] = .str("dropbox_id")
                     return .dictionary(d)
                 case .email(let arg):
-                    var d = ["email": Serialization._StringSerializer.serialize(arg)]
+                    var d = ["email": Serialization._StringSerializer.serialize(value: arg)]
                     d[".tag"] = .str("email")
                     return .dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> MemberSelector {
@@ -3825,14 +3825,14 @@ open class Sharing {
             self.removeExpiration = removeExpiration
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ModifySharedLinkSettingsArgsSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ModifySharedLinkSettingsArgsSerializer().serialize(self)))"
         }
     }
     open class ModifySharedLinkSettingsArgsSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ModifySharedLinkSettingsArgs) -> JSON {
             let output = [ 
-            "url": Serialization._StringSerializer.serialize(value.url),
+            "url": Serialization._StringSerializer.serialize(value: value.url),
             "settings": Sharing.SharedLinkSettingsSerializer().serialize(value.settings),
             "remove_expiration": Serialization._BoolSerializer.serialize(value.removeExpiration),
             ]
@@ -3865,7 +3865,7 @@ open class Sharing {
         case emailNotVerified
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ModifySharedLinkSettingsErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ModifySharedLinkSettingsErrorSerializer().serialize(self)))"
         }
     }
     open class ModifySharedLinkSettingsErrorSerializer: JSONSerializer {
@@ -3875,23 +3875,23 @@ open class Sharing {
                 case .sharedLinkNotFound:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_link_not_found")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .sharedLinkAccessDenied:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_link_access_denied")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .settingsError(let arg):
                     var d = ["settings_error": Sharing.SharedLinkSettingsErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("settings_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .emailNotVerified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_not_verified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ModifySharedLinkSettingsError {
@@ -3928,14 +3928,14 @@ open class Sharing {
             self.sharedFolderId = sharedFolderId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MountFolderArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MountFolderArgSerializer().serialize(self)))"
         }
     }
     open class MountFolderArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: MountFolderArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             ]
             return .dictionary(output)
         }
@@ -3969,7 +3969,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(MountFolderErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: MountFolderErrorSerializer().serialize(self)))"
         }
     }
     open class MountFolderErrorSerializer: JSONSerializer {
@@ -3979,31 +3979,31 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insideSharedFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_shared_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insufficientQuota(let arg):
-                    var d = Serialization.getFields(Sharing.InsufficientQuotaAmountsSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.InsufficientQuotaAmountsSerializer().serialize(arg))
                     d[".tag"] = .str("insufficient_quota")
                     return .dictionary(d)
                 case .alreadyMounted:
                     var d = [String: JSON]()
                     d[".tag"] = .str("already_mounted")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notMountable:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_mountable")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> MountFolderError {
@@ -4052,14 +4052,14 @@ open class Sharing {
             self.permissions = permissions
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ParentFolderAccessInfoSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ParentFolderAccessInfoSerializer().serialize(self)))"
         }
     }
     open class ParentFolderAccessInfoSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ParentFolderAccessInfo) -> JSON {
             let output = [ 
-            "folder_name": Serialization._StringSerializer.serialize(value.folderName),
+            "folder_name": Serialization._StringSerializer.serialize(value: value.folderName),
             "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
             "permissions": ArraySerializer(Sharing.MemberPermissionSerializer()).serialize(value.permissions),
             ]
@@ -4088,14 +4088,14 @@ open class Sharing {
             super.init(url: url, visibility: visibility, expires: expires)
         }
         open override var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(PathLinkMetadataSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: PathLinkMetadataSerializer().serialize(self)))"
         }
     }
     open class PathLinkMetadataSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: PathLinkMetadata) -> JSON {
             let output = [ 
-            "url": Serialization._StringSerializer.serialize(value.url),
+            "url": Serialization._StringSerializer.serialize(value: value.url),
             "visibility": Sharing.VisibilitySerializer().serialize(value.visibility),
             "path": Serialization._StringSerializer.serialize(value.path),
             "expires": NullableSerializer(NSDateSerializer("%Y-%m-%dT%H:%M:%SZ")).serialize(value.expires),
@@ -4124,7 +4124,7 @@ open class Sharing {
         case folder
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(PendingUploadModeSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: PendingUploadModeSerializer().serialize(self)))"
         }
     }
     open class PendingUploadModeSerializer: JSONSerializer {
@@ -4134,11 +4134,11 @@ open class Sharing {
                 case .file:
                     var d = [String: JSON]()
                     d[".tag"] = .str("file")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .folder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> PendingUploadMode {
@@ -4179,7 +4179,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(PermissionDeniedReasonSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: PermissionDeniedReasonSerializer().serialize(self)))"
         }
     }
     open class PermissionDeniedReasonSerializer: JSONSerializer {
@@ -4189,35 +4189,35 @@ open class Sharing {
                 case .userNotSameTeamAsOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("user_not_same_team_as_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .userNotAllowedByOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("user_not_allowed_by_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .targetIsIndirectMember:
                     var d = [String: JSON]()
                     d[".tag"] = .str("target_is_indirect_member")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .targetIsOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("target_is_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .targetIsSelf:
                     var d = [String: JSON]()
                     d[".tag"] = .str("target_is_self")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .targetNotActive:
                     var d = [String: JSON]()
                     d[".tag"] = .str("target_not_active")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .folderIsLimitedTeamFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("folder_is_limited_team_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> PermissionDeniedReason {
@@ -4259,14 +4259,14 @@ open class Sharing {
             self.file = file
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RelinquishFileMembershipArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RelinquishFileMembershipArgSerializer().serialize(self)))"
         }
     }
     open class RelinquishFileMembershipArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: RelinquishFileMembershipArg) -> JSON {
             let output = [ 
-            "file": Serialization._StringSerializer.serialize(value.file),
+            "file": Serialization._StringSerializer.serialize(value: value.file),
             ]
             return .dictionary(output)
         }
@@ -4294,7 +4294,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RelinquishFileMembershipErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RelinquishFileMembershipErrorSerializer().serialize(self)))"
         }
     }
     open class RelinquishFileMembershipErrorSerializer: JSONSerializer {
@@ -4304,19 +4304,19 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharingFileAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .groupAccess:
                     var d = [String: JSON]()
                     d[".tag"] = .str("group_access")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RelinquishFileMembershipError {
@@ -4354,14 +4354,14 @@ open class Sharing {
             self.leaveACopy = leaveACopy
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RelinquishFolderMembershipArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RelinquishFolderMembershipArgSerializer().serialize(self)))"
         }
     }
     open class RelinquishFolderMembershipArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: RelinquishFolderMembershipArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "leave_a_copy": Serialization._BoolSerializer.serialize(value.leaveACopy),
             ]
             return .dictionary(output)
@@ -4398,7 +4398,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RelinquishFolderMembershipErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RelinquishFolderMembershipErrorSerializer().serialize(self)))"
         }
     }
     open class RelinquishFolderMembershipErrorSerializer: JSONSerializer {
@@ -4408,31 +4408,31 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .folderOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("folder_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .mounted:
                     var d = [String: JSON]()
                     d[".tag"] = .str("mounted")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .groupAccess:
                     var d = [String: JSON]()
                     d[".tag"] = .str("group_access")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RelinquishFolderMembershipError {
@@ -4477,14 +4477,14 @@ open class Sharing {
             self.member = member
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RemoveFileMemberArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RemoveFileMemberArgSerializer().serialize(self)))"
         }
     }
     open class RemoveFileMemberArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: RemoveFileMemberArg) -> JSON {
             let output = [ 
-            "file": Serialization._StringSerializer.serialize(value.file),
+            "file": Serialization._StringSerializer.serialize(value: value.file),
             "member": Sharing.MemberSelectorSerializer().serialize(value.member),
             ]
             return .dictionary(output)
@@ -4514,7 +4514,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RemoveFileMemberErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RemoveFileMemberErrorSerializer().serialize(self)))"
         }
     }
     open class RemoveFileMemberErrorSerializer: JSONSerializer {
@@ -4524,19 +4524,19 @@ open class Sharing {
                 case .userError(let arg):
                     var d = ["user_error": Sharing.SharingUserErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("user_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharingFileAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noExplicitAccess(let arg):
-                    var d = Serialization.getFields(Sharing.MemberAccessLevelResultSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.MemberAccessLevelResultSerializer().serialize(arg))
                     d[".tag"] = .str("no_explicit_access")
                     return .dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RemoveFileMemberError {
@@ -4580,14 +4580,14 @@ open class Sharing {
             self.leaveACopy = leaveACopy
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RemoveFolderMemberArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RemoveFolderMemberArgSerializer().serialize(self)))"
         }
     }
     open class RemoveFolderMemberArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: RemoveFolderMemberArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "member": Sharing.MemberSelectorSerializer().serialize(value.member),
             "leave_a_copy": Serialization._BoolSerializer.serialize(value.leaveACopy),
             ]
@@ -4625,7 +4625,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RemoveFolderMemberErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RemoveFolderMemberErrorSerializer().serialize(self)))"
         }
     }
     open class RemoveFolderMemberErrorSerializer: JSONSerializer {
@@ -4635,31 +4635,31 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .memberError(let arg):
                     var d = ["member_error": Sharing.SharedFolderMemberErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("member_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .folderOwner:
                     var d = [String: JSON]()
                     d[".tag"] = .str("folder_owner")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .groupAccess:
                     var d = [String: JSON]()
                     d[".tag"] = .str("group_access")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RemoveFolderMemberError {
@@ -4703,7 +4703,7 @@ open class Sharing {
         case failed(Sharing.RemoveFolderMemberError)
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RemoveMemberJobStatusSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RemoveMemberJobStatusSerializer().serialize(self)))"
         }
     }
     open class RemoveMemberJobStatusSerializer: JSONSerializer {
@@ -4713,15 +4713,15 @@ open class Sharing {
                 case .inProgress:
                     var d = [String: JSON]()
                     d[".tag"] = .str("in_progress")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .complete(let arg):
-                    var d = Serialization.getFields(Sharing.MemberAccessLevelResultSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.MemberAccessLevelResultSerializer().serialize(arg))
                     d[".tag"] = .str("complete")
                     return .dictionary(d)
                 case .failed(let arg):
                     var d = ["failed": Sharing.RemoveFolderMemberErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("failed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RemoveMemberJobStatus {
@@ -4758,7 +4758,7 @@ open class Sharing {
         case password
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RequestedVisibilitySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RequestedVisibilitySerializer().serialize(self)))"
         }
     }
     open class RequestedVisibilitySerializer: JSONSerializer {
@@ -4768,15 +4768,15 @@ open class Sharing {
                 case .public_:
                     var d = [String: JSON]()
                     d[".tag"] = .str("public")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .password:
                     var d = [String: JSON]()
                     d[".tag"] = .str("password")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RequestedVisibility {
@@ -4817,7 +4817,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ResolvedVisibilitySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ResolvedVisibilitySerializer().serialize(self)))"
         }
     }
     open class ResolvedVisibilitySerializer: JSONSerializer {
@@ -4827,27 +4827,27 @@ open class Sharing {
                 case .public_:
                     var d = [String: JSON]()
                     d[".tag"] = .str("public")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .password:
                     var d = [String: JSON]()
                     d[".tag"] = .str("password")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamAndPassword:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_and_password")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .sharedFolderOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_folder_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ResolvedVisibility {
@@ -4885,14 +4885,14 @@ open class Sharing {
             self.url = url
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RevokeSharedLinkArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RevokeSharedLinkArgSerializer().serialize(self)))"
         }
     }
     open class RevokeSharedLinkArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: RevokeSharedLinkArg) -> JSON {
             let output = [ 
-            "url": Serialization._StringSerializer.serialize(value.url),
+            "url": Serialization._StringSerializer.serialize(value: value.url),
             ]
             return .dictionary(output)
         }
@@ -4919,7 +4919,7 @@ open class Sharing {
         case sharedLinkMalformed
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RevokeSharedLinkErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RevokeSharedLinkErrorSerializer().serialize(self)))"
         }
     }
     open class RevokeSharedLinkErrorSerializer: JSONSerializer {
@@ -4929,19 +4929,19 @@ open class Sharing {
                 case .sharedLinkNotFound:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_link_not_found")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .sharedLinkAccessDenied:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_link_access_denied")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .sharedLinkMalformed:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_link_malformed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RevokeSharedLinkError {
@@ -4988,14 +4988,14 @@ open class Sharing {
             self.forceAsync = forceAsync
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ShareFolderArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ShareFolderArgSerializer().serialize(self)))"
         }
     }
     open class ShareFolderArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: ShareFolderArg) -> JSON {
             let output = [ 
-            "path": Serialization._StringSerializer.serialize(value.path),
+            "path": Serialization._StringSerializer.serialize(value: value.path),
             "member_policy": Sharing.MemberPolicySerializer().serialize(value.memberPolicy),
             "acl_update_policy": Sharing.AclUpdatePolicySerializer().serialize(value.aclUpdatePolicy),
             "shared_link_policy": Sharing.SharedLinkPolicySerializer().serialize(value.sharedLinkPolicy),
@@ -5032,7 +5032,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ShareFolderErrorBaseSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ShareFolderErrorBaseSerializer().serialize(self)))"
         }
     }
     open class ShareFolderErrorBaseSerializer: JSONSerializer {
@@ -5042,23 +5042,23 @@ open class Sharing {
                 case .emailUnverified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_unverified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .badPath(let arg):
                     var d = ["bad_path": Sharing.SharePathErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("bad_path")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamPolicyDisallowsMemberPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_policy_disallows_member_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .disallowedSharedLinkPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("disallowed_shared_link_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ShareFolderErrorBase {
@@ -5102,7 +5102,7 @@ open class Sharing {
         case noPermission
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ShareFolderErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ShareFolderErrorSerializer().serialize(self)))"
         }
     }
     open class ShareFolderErrorSerializer: JSONSerializer {
@@ -5112,27 +5112,27 @@ open class Sharing {
                 case .emailUnverified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_unverified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .badPath(let arg):
                     var d = ["bad_path": Sharing.SharePathErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("bad_path")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamPolicyDisallowsMemberPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_policy_disallows_member_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .disallowedSharedLinkPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("disallowed_shared_link_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ShareFolderError {
@@ -5172,7 +5172,7 @@ open class Sharing {
         case failed(Sharing.ShareFolderError)
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ShareFolderJobStatusSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ShareFolderJobStatusSerializer().serialize(self)))"
         }
     }
     open class ShareFolderJobStatusSerializer: JSONSerializer {
@@ -5182,15 +5182,15 @@ open class Sharing {
                 case .inProgress:
                     var d = [String: JSON]()
                     d[".tag"] = .str("in_progress")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .complete(let arg):
-                    var d = Serialization.getFields(Sharing.SharedFolderMetadataSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.SharedFolderMetadataSerializer().serialize(arg))
                     d[".tag"] = .str("complete")
                     return .dictionary(d)
                 case .failed(let arg):
                     var d = ["failed": Sharing.ShareFolderErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("failed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> ShareFolderJobStatus {
@@ -5224,7 +5224,7 @@ open class Sharing {
         case complete(Sharing.SharedFolderMetadata)
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(ShareFolderLaunchSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: ShareFolderLaunchSerializer().serialize(self)))"
         }
     }
     open class ShareFolderLaunchSerializer: JSONSerializer {
@@ -5232,11 +5232,11 @@ open class Sharing {
         open func serialize(_ value: ShareFolderLaunch) -> JSON {
             switch value {
                 case .asyncJobId(let arg):
-                    var d = ["async_job_id": Serialization._StringSerializer.serialize(arg)]
+                    var d = ["async_job_id": Serialization._StringSerializer.serialize(value: arg)]
                     d[".tag"] = .str("async_job_id")
                     return .dictionary(d)
                 case .complete(let arg):
-                    var d = Serialization.getFields(Sharing.SharedFolderMetadataSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.SharedFolderMetadataSerializer().serialize(arg))
                     d[".tag"] = .str("complete")
                     return .dictionary(d)
             }
@@ -5289,7 +5289,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharePathErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharePathErrorSerializer().serialize(self)))"
         }
     }
     open class SharePathErrorSerializer: JSONSerializer {
@@ -5299,51 +5299,51 @@ open class Sharing {
                 case .isFile:
                     var d = [String: JSON]()
                     d[".tag"] = .str("is_file")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insideSharedFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_shared_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .containsSharedFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("contains_shared_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .isAppFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("is_app_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insideAppFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_app_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .isPublicFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("is_public_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insidePublicFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_public_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .alreadyShared(let arg):
-                    var d = Serialization.getFields(Sharing.SharedFolderMetadataSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.SharedFolderMetadataSerializer().serialize(arg))
                     d[".tag"] = .str("already_shared")
                     return .dictionary(d)
                 case .invalidPath:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_path")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .isOsxPackage:
                     var d = [String: JSON]()
                     d[".tag"] = .str("is_osx_package")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insideOsxPackage:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_osx_package")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharePathError {
@@ -5405,14 +5405,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFileMembersSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFileMembersSerializer().serialize(self)))"
         }
     }
     open class SharedFileMembersSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: SharedFileMembers) -> JSON {
             let output = [ 
-            "users": ArraySerializer(Sharing.UserMembershipInfoSerializer()).serialize(value.users),
+            "users": ArraySerializer(Sharing.UserMembershipInfoSerializer()).serialize(arr: value.users),
             "groups": ArraySerializer(Sharing.GroupMembershipInfoSerializer()).serialize(value.groups),
             "invitees": ArraySerializer(Sharing.InviteeMembershipInfoSerializer()).serialize(value.invitees),
             "cursor": NullableSerializer(Serialization._StringSerializer).serialize(value.cursor),
@@ -5475,7 +5475,7 @@ open class Sharing {
             self.id = id
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFileMetadataSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFileMetadataSerializer().serialize(self)))"
         }
     }
     open class SharedFileMetadataSerializer: JSONSerializer {
@@ -5483,7 +5483,7 @@ open class Sharing {
         open func serialize(_ value: SharedFileMetadata) -> JSON {
             let output = [ 
             "policy": Sharing.FolderPolicySerializer().serialize(value.policy),
-            "preview_url": Serialization._StringSerializer.serialize(value.previewUrl),
+            "preview_url": Serialization._StringSerializer.serialize(value: value.previewUrl),
             "name": Serialization._StringSerializer.serialize(value.name),
             "id": Serialization._StringSerializer.serialize(value.id),
             "permissions": NullableSerializer(ArraySerializer(Sharing.FilePermissionSerializer())).serialize(value.permissions),
@@ -5527,7 +5527,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderAccessErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderAccessErrorSerializer().serialize(self)))"
         }
     }
     open class SharedFolderAccessErrorSerializer: JSONSerializer {
@@ -5537,23 +5537,23 @@ open class Sharing {
                 case .invalidId:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_id")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notAMember:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_a_member")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .emailUnverified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_unverified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .unmounted:
                     var d = [String: JSON]()
                     d[".tag"] = .str("unmounted")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderAccessError {
@@ -5592,7 +5592,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderMemberErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderMemberErrorSerializer().serialize(self)))"
         }
     }
     open class SharedFolderMemberErrorSerializer: JSONSerializer {
@@ -5602,19 +5602,19 @@ open class Sharing {
                 case .invalidDropboxId:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_dropbox_id")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notAMember:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_a_member")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noExplicitAccess(let arg):
-                    var d = Serialization.getFields(Sharing.MemberAccessLevelResultSerializer().serialize(arg))
+                    var d = Serialization.getFields(json: Sharing.MemberAccessLevelResultSerializer().serialize(arg))
                     d[".tag"] = .str("no_explicit_access")
                     return .dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderMemberError {
@@ -5659,14 +5659,14 @@ open class Sharing {
             self.cursor = cursor
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderMembersSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderMembersSerializer().serialize(self)))"
         }
     }
     open class SharedFolderMembersSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: SharedFolderMembers) -> JSON {
             let output = [ 
-            "users": ArraySerializer(Sharing.UserMembershipInfoSerializer()).serialize(value.users),
+            "users": ArraySerializer(Sharing.UserMembershipInfoSerializer()).serialize(arr: value.users),
             "groups": ArraySerializer(Sharing.GroupMembershipInfoSerializer()).serialize(value.groups),
             "invitees": ArraySerializer(Sharing.InviteeMembershipInfoSerializer()).serialize(value.invitees),
             "cursor": NullableSerializer(Serialization._StringSerializer).serialize(value.cursor),
@@ -5709,7 +5709,7 @@ open class Sharing {
             self.parentSharedFolderId = parentSharedFolderId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderMetadataBaseSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderMetadataBaseSerializer().serialize(self)))"
         }
     }
     open class SharedFolderMetadataBaseSerializer: JSONSerializer {
@@ -5717,7 +5717,7 @@ open class Sharing {
         open func serialize(_ value: SharedFolderMetadataBase) -> JSON {
             let output = [ 
             "access_type": Sharing.AccessLevelSerializer().serialize(value.accessType),
-            "is_team_folder": Serialization._BoolSerializer.serialize(value.isTeamFolder),
+            "is_team_folder": Serialization._BoolSerializer.serialize(value: value.isTeamFolder),
             "policy": Sharing.FolderPolicySerializer().serialize(value.policy),
             "owner_team": NullableSerializer(Users.TeamSerializer()).serialize(value.ownerTeam),
             "parent_shared_folder_id": NullableSerializer(Serialization._StringSerializer).serialize(value.parentSharedFolderId),
@@ -5768,7 +5768,7 @@ open class Sharing {
             super.init(accessType: accessType, isTeamFolder: isTeamFolder, policy: policy, ownerTeam: ownerTeam, parentSharedFolderId: parentSharedFolderId)
         }
         open override var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderMetadataSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderMetadataSerializer().serialize(self)))"
         }
     }
     open class SharedFolderMetadataSerializer: JSONSerializer {
@@ -5776,7 +5776,7 @@ open class Sharing {
         open func serialize(_ value: SharedFolderMetadata) -> JSON {
             let output = [ 
             "access_type": Sharing.AccessLevelSerializer().serialize(value.accessType),
-            "is_team_folder": Serialization._BoolSerializer.serialize(value.isTeamFolder),
+            "is_team_folder": Serialization._BoolSerializer.serialize(value: value.isTeamFolder),
             "policy": Sharing.FolderPolicySerializer().serialize(value.policy),
             "name": Serialization._StringSerializer.serialize(value.name),
             "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
@@ -5826,7 +5826,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedLinkAccessFailureReasonSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedLinkAccessFailureReasonSerializer().serialize(self)))"
         }
     }
     open class SharedLinkAccessFailureReasonSerializer: JSONSerializer {
@@ -5836,27 +5836,27 @@ open class Sharing {
                 case .loginRequired:
                     var d = [String: JSON]()
                     d[".tag"] = .str("login_required")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .emailVerifyRequired:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_verify_required")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .passwordRequired:
                     var d = [String: JSON]()
                     d[".tag"] = .str("password_required")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .ownerOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("owner_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedLinkAccessFailureReason {
@@ -5895,7 +5895,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedLinkPolicySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedLinkPolicySerializer().serialize(self)))"
         }
     }
     open class SharedLinkPolicySerializer: JSONSerializer {
@@ -5905,15 +5905,15 @@ open class Sharing {
                 case .anyone:
                     var d = [String: JSON]()
                     d[".tag"] = .str("anyone")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .members:
                     var d = [String: JSON]()
                     d[".tag"] = .str("members")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedLinkPolicy {
@@ -5952,14 +5952,14 @@ open class Sharing {
             self.expires = expires
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedLinkSettingsSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedLinkSettingsSerializer().serialize(self)))"
         }
     }
     open class SharedLinkSettingsSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: SharedLinkSettings) -> JSON {
             let output = [ 
-            "requested_visibility": NullableSerializer(Sharing.RequestedVisibilitySerializer()).serialize(value.requestedVisibility),
+            "requested_visibility": NullableSerializer(Sharing.RequestedVisibilitySerializer()).serialize(value: value.requestedVisibility),
             "link_password": NullableSerializer(Serialization._StringSerializer).serialize(value.linkPassword),
             "expires": NullableSerializer(NSDateSerializer("%Y-%m-%dT%H:%M:%SZ")).serialize(value.expires),
             ]
@@ -5990,7 +5990,7 @@ open class Sharing {
         case notAuthorized
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedLinkSettingsErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedLinkSettingsErrorSerializer().serialize(self)))"
         }
     }
     open class SharedLinkSettingsErrorSerializer: JSONSerializer {
@@ -6000,11 +6000,11 @@ open class Sharing {
                 case .invalidSettings:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_settings")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notAuthorized:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_authorized")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedLinkSettingsError {
@@ -6041,7 +6041,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharingFileAccessErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharingFileAccessErrorSerializer().serialize(self)))"
         }
     }
     open class SharingFileAccessErrorSerializer: JSONSerializer {
@@ -6051,27 +6051,27 @@ open class Sharing {
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .invalidFile:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_file")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .isFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("is_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insidePublicFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_public_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insideOsxPackage:
                     var d = [String: JSON]()
                     d[".tag"] = .str("inside_osx_package")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharingFileAccessError {
@@ -6108,7 +6108,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharingUserErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharingUserErrorSerializer().serialize(self)))"
         }
     }
     open class SharingUserErrorSerializer: JSONSerializer {
@@ -6118,11 +6118,11 @@ open class Sharing {
                 case .emailUnverified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("email_unverified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharingUserError {
@@ -6160,7 +6160,7 @@ open class Sharing {
             self.memberId = memberId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(TeamMemberInfoSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: TeamMemberInfoSerializer().serialize(self)))"
         }
     }
     open class TeamMemberInfoSerializer: JSONSerializer {
@@ -6168,7 +6168,7 @@ open class Sharing {
         open func serialize(_ value: TeamMemberInfo) -> JSON {
             let output = [ 
             "team_info": Users.TeamSerializer().serialize(value.teamInfo),
-            "display_name": Serialization._StringSerializer.serialize(value.displayName),
+            "display_name": Serialization._StringSerializer.serialize(value: value.displayName),
             "member_id": NullableSerializer(Serialization._StringSerializer).serialize(value.memberId),
             ]
             return .dictionary(output)
@@ -6199,14 +6199,14 @@ open class Sharing {
             self.toDropboxId = toDropboxId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(TransferFolderArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: TransferFolderArgSerializer().serialize(self)))"
         }
     }
     open class TransferFolderArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: TransferFolderArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "to_dropbox_id": Serialization._StringSerializer.serialize(value.toDropboxId),
             ]
             return .dictionary(output)
@@ -6243,7 +6243,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(TransferFolderErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: TransferFolderErrorSerializer().serialize(self)))"
         }
     }
     open class TransferFolderErrorSerializer: JSONSerializer {
@@ -6253,35 +6253,35 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .invalidDropboxId:
                     var d = [String: JSON]()
                     d[".tag"] = .str("invalid_dropbox_id")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .newOwnerNotAMember:
                     var d = [String: JSON]()
                     d[".tag"] = .str("new_owner_not_a_member")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .newOwnerUnmounted:
                     var d = [String: JSON]()
                     d[".tag"] = .str("new_owner_unmounted")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .newOwnerEmailUnverified:
                     var d = [String: JSON]()
                     d[".tag"] = .str("new_owner_email_unverified")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> TransferFolderError {
@@ -6324,14 +6324,14 @@ open class Sharing {
             self.sharedFolderId = sharedFolderId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnmountFolderArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnmountFolderArgSerializer().serialize(self)))"
         }
     }
     open class UnmountFolderArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UnmountFolderArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             ]
             return .dictionary(output)
         }
@@ -6359,7 +6359,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnmountFolderErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnmountFolderErrorSerializer().serialize(self)))"
         }
     }
     open class UnmountFolderErrorSerializer: JSONSerializer {
@@ -6369,19 +6369,19 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notUnmountable:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_unmountable")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> UnmountFolderError {
@@ -6416,14 +6416,14 @@ open class Sharing {
             self.file = file
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnshareFileArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnshareFileArgSerializer().serialize(self)))"
         }
     }
     open class UnshareFileArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UnshareFileArg) -> JSON {
             let output = [ 
-            "file": Serialization._StringSerializer.serialize(value.file),
+            "file": Serialization._StringSerializer.serialize(value: value.file),
             ]
             return .dictionary(output)
         }
@@ -6448,7 +6448,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnshareFileErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnshareFileErrorSerializer().serialize(self)))"
         }
     }
     open class UnshareFileErrorSerializer: JSONSerializer {
@@ -6458,15 +6458,15 @@ open class Sharing {
                 case .userError(let arg):
                     var d = ["user_error": Sharing.SharingUserErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("user_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharingFileAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> UnshareFileError {
@@ -6504,14 +6504,14 @@ open class Sharing {
             self.leaveACopy = leaveACopy
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnshareFolderArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnshareFolderArgSerializer().serialize(self)))"
         }
     }
     open class UnshareFolderArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UnshareFolderArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "leave_a_copy": Serialization._BoolSerializer.serialize(value.leaveACopy),
             ]
             return .dictionary(output)
@@ -6540,7 +6540,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UnshareFolderErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UnshareFolderErrorSerializer().serialize(self)))"
         }
     }
     open class UnshareFolderErrorSerializer: JSONSerializer {
@@ -6550,19 +6550,19 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamFolder:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_folder")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> UnshareFolderError {
@@ -6603,14 +6603,14 @@ open class Sharing {
             self.accessLevel = accessLevel
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UpdateFolderMemberArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UpdateFolderMemberArgSerializer().serialize(self)))"
         }
     }
     open class UpdateFolderMemberArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UpdateFolderMemberArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "member": Sharing.MemberSelectorSerializer().serialize(value.member),
             "access_level": Sharing.AccessLevelSerializer().serialize(value.accessLevel),
             ]
@@ -6647,7 +6647,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UpdateFolderMemberErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UpdateFolderMemberErrorSerializer().serialize(self)))"
         }
     }
     open class UpdateFolderMemberErrorSerializer: JSONSerializer {
@@ -6657,27 +6657,27 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .memberError(let arg):
                     var d = ["member_error": Sharing.SharedFolderMemberErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("member_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noExplicitAccess(let arg):
                     var d = ["no_explicit_access": Sharing.AddFolderMemberErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("no_explicit_access")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .insufficientPlan:
                     var d = [String: JSON]()
                     d[".tag"] = .str("insufficient_plan")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> UpdateFolderMemberError {
@@ -6728,14 +6728,14 @@ open class Sharing {
             self.sharedLinkPolicy = sharedLinkPolicy
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UpdateFolderPolicyArgSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UpdateFolderPolicyArgSerializer().serialize(self)))"
         }
     }
     open class UpdateFolderPolicyArgSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UpdateFolderPolicyArg) -> JSON {
             let output = [ 
-            "shared_folder_id": Serialization._StringSerializer.serialize(value.sharedFolderId),
+            "shared_folder_id": Serialization._StringSerializer.serialize(value: value.sharedFolderId),
             "member_policy": NullableSerializer(Sharing.MemberPolicySerializer()).serialize(value.memberPolicy),
             "acl_update_policy": NullableSerializer(Sharing.AclUpdatePolicySerializer()).serialize(value.aclUpdatePolicy),
             "shared_link_policy": NullableSerializer(Sharing.SharedLinkPolicySerializer()).serialize(value.sharedLinkPolicy),
@@ -6772,7 +6772,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UpdateFolderPolicyErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UpdateFolderPolicyErrorSerializer().serialize(self)))"
         }
     }
     open class UpdateFolderPolicyErrorSerializer: JSONSerializer {
@@ -6782,27 +6782,27 @@ open class Sharing {
                 case .accessError(let arg):
                     var d = ["access_error": Sharing.SharedFolderAccessErrorSerializer().serialize(arg)]
                     d[".tag"] = .str("access_error")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .notOnTeam:
                     var d = [String: JSON]()
                     d[".tag"] = .str("not_on_team")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamPolicyDisallowsMemberPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_policy_disallows_member_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .disallowedSharedLinkPolicy:
                     var d = [String: JSON]()
                     d[".tag"] = .str("disallowed_shared_link_policy")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .noPermission:
                     var d = [String: JSON]()
                     d[".tag"] = .str("no_permission")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> UpdateFolderPolicyError {
@@ -6848,14 +6848,14 @@ open class Sharing {
             self.teamMemberId = teamMemberId
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UserInfoSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UserInfoSerializer().serialize(self)))"
         }
     }
     open class UserInfoSerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: UserInfo) -> JSON {
             let output = [ 
-            "account_id": Serialization._StringSerializer.serialize(value.accountId),
+            "account_id": Serialization._StringSerializer.serialize(value: value.accountId),
             "same_team": Serialization._BoolSerializer.serialize(value.sameTeam),
             "team_member_id": NullableSerializer(Serialization._StringSerializer).serialize(value.teamMemberId),
             ]
@@ -6883,7 +6883,7 @@ open class Sharing {
             super.init(accessType: accessType, permissions: permissions, initials: initials, isInherited: isInherited)
         }
         open override var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(UserMembershipInfoSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: UserMembershipInfoSerializer().serialize(self)))"
         }
     }
     open class UserMembershipInfoSerializer: JSONSerializer {
@@ -6930,7 +6930,7 @@ open class Sharing {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(VisibilitySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: VisibilitySerializer().serialize(self)))"
         }
     }
     open class VisibilitySerializer: JSONSerializer {
@@ -6940,27 +6940,27 @@ open class Sharing {
                 case .public_:
                     var d = [String: JSON]()
                     d[".tag"] = .str("public")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .password:
                     var d = [String: JSON]()
                     d[".tag"] = .str("password")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamAndPassword:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_and_password")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .sharedFolderOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("shared_folder_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> Visibility {

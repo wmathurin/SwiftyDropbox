@@ -16,7 +16,7 @@ open class TeamCommon {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(GroupManagementTypeSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: GroupManagementTypeSerializer().serialize(self)))"
         }
     }
     open class GroupManagementTypeSerializer: JSONSerializer {
@@ -26,15 +26,15 @@ open class TeamCommon {
                 case .companyManaged:
                     var d = [String: JSON]()
                     d[".tag"] = .str("company_managed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .userManaged:
                     var d = [String: JSON]()
                     d[".tag"] = .str("user_managed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> GroupManagementType {
@@ -81,14 +81,14 @@ open class TeamCommon {
             self.groupManagementType = groupManagementType
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(GroupSummarySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: GroupSummarySerializer().serialize(self)))"
         }
     }
     open class GroupSummarySerializer: JSONSerializer {
         public init() { }
         open func serialize(_ value: GroupSummary) -> JSON {
             let output = [ 
-            "group_name": Serialization._StringSerializer.serialize(value.groupName),
+            "group_name": Serialization._StringSerializer.serialize(value: value.groupName),
             "group_id": Serialization._StringSerializer.serialize(value.groupId),
             "group_management_type": TeamCommon.GroupManagementTypeSerializer().serialize(value.groupManagementType),
             "group_external_id": NullableSerializer(Serialization._StringSerializer).serialize(value.groupExternalId),
@@ -122,7 +122,7 @@ open class TeamCommon {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(GroupTypeSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: GroupTypeSerializer().serialize(self)))"
         }
     }
     open class GroupTypeSerializer: JSONSerializer {
@@ -132,15 +132,15 @@ open class TeamCommon {
                 case .team:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .userManaged:
                     var d = [String: JSON]()
                     d[".tag"] = .str("user_managed")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> GroupType {

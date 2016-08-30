@@ -189,7 +189,7 @@ open class SharingRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Sharing.SharedLinkMetadata` object on
     /// success or a `Sharing.GetSharedLinkFileError` object on failure.
-    open func getSharedLinkFile(url: String, path: String? = nil, linkPassword: String? = nil, overwrite: Bool = false, destination: (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Sharing.SharedLinkMetadataSerializer, Sharing.GetSharedLinkFileErrorSerializer> {
+    open func getSharedLinkFile(url: String, path: String? = nil, linkPassword: String? = nil, overwrite: Bool = false, destination: @escaping (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Sharing.SharedLinkMetadataSerializer, Sharing.GetSharedLinkFileErrorSerializer> {
         let route = Sharing.getSharedLinkFile
         let serverArgs = Sharing.GetSharedLinkMetadataArg(url: url, path: path, linkPassword: linkPassword)
         return client.request(route, serverArgs: serverArgs, overwrite: overwrite, destination: destination)

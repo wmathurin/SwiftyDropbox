@@ -298,7 +298,7 @@ open class DropboxAuthManager {
         components.queryItems = [
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "client_id", value: self.appKey),
-            URLQueryItem(name: "redirect_uri", value: self.redirectURL.URLString),
+            URLQueryItem(name: "redirect_uri", value: self.redirectURL.urlString),
             URLQueryItem(name: "disable_signup", value: "true"),
         ]
         return components.url!

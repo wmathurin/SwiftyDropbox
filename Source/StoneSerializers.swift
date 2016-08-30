@@ -23,7 +23,7 @@ public class SerializeUtil {
         case let dict as [String: AnyObject]:
             var ret = [String: JSON]()
             for (k, v) in dict {
-                ret[k] = objectToJSON(v)
+                ret[k] = objectToJSON(json: v)
             }
             return .Dictionary(ret)
         case let array as [AnyObject]:
@@ -45,7 +45,7 @@ public class SerializeUtil {
                 case .Null:
                     continue
                 default:
-                    ret[k] = prepareJSONForSerialization(v)
+                    ret[k] = prepareJSONForSerialization(json: v)
                 }
             }
             return ret
@@ -63,7 +63,7 @@ public class SerializeUtil {
         case .Null:
             return "null".data(using: NSUTF8StringEncoding, allowLossyConversion: false)
         default:
-            let obj: AnyObject = prepareJSONForSerialization(json)
+            let obj: AnyObject = prepareJSONForSerialization(json: json)
             if JSONSerialization.isValidJSONObject(obj) {
                 return try! JSONSerialization.dataWithJSONObject(obj, options: JSONSerialization.WritingOptions())
             } else {
@@ -74,7 +74,7 @@ public class SerializeUtil {
 
     public class func parseJSON(data: NSData) -> JSON {
         let obj: AnyObject = try! JSONSerialization.JSONObjectWithData(data as Data, options: JSONSerialization.ReadingOptions.AllowFragments)
-        return objectToJSON(obj)
+        return objectToJSON(json: obj)
     }
 }
 
@@ -86,6 +86,8 @@ public protocol JSONSerializer {
 }
 
 public class VoidSerializer: JSONSerializer {
+    typealias ValueType = <#type#>
+
     public func serialize(value: Void) -> JSON {
         return .Null
     }
@@ -102,7 +104,9 @@ public class VoidSerializer: JSONSerializer {
 }
 
 
-public class ArraySerializer<T: JSONSerializer>: JSONSerializer {
+p
+typealias ValueType = <#type#>
+ublic class ArraySerializer<T: JSONSerializer>: JSONSerializer {
     
     var elementSerializer: T
     
@@ -124,7 +128,9 @@ public class ArraySerializer<T: JSONSerializer>: JSONSerializer {
     }
 }
 
-public class StringSerializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class StringSerializer: JSONSerializer {
     public func serialize(value: String) -> JSON {
         return .Str(value)
     }
@@ -212,7 +218,7 @@ public class NSDateSerializer: JSONSerializer {
                     newFormat += "'"
                     inQuotedText = false
                 }
-                newFormat += symbolForToken(token)
+                newFormat += symbolForToktoken: en(token)
             } else {
                 if "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".characters.contains(format[i]) {
                     if !inQuotedText {
@@ -237,7 +243,7 @@ public class NSDateSerializer: JSONSerializer {
         self.dateFormatter = DateFormatter()
         self.dateFormatter.timeZone = NSTimeZone(name: "UTC")
         self.dateFormatter.locale = NSLocale(localeIdentifier:"en_US_POSIX") as Locale!
-        dateFormatter.dateFormat = self.convertFormat(dateFormat)
+        dateFormatter.dateFormat = self.convertFormat(format: dateFormat)
     }
     public func serialize(value: NSDate) -> JSON {
         return .Str(self.dateFormatter.string(from: value as Date))
@@ -253,7 +259,9 @@ public class NSDateSerializer: JSONSerializer {
     }
 }
 
-public class BoolSerializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class BoolSerializer: JSONSerializer {
     public func serialize(value: Bool) -> JSON {
         return .Number(NSNumber(bool: value))
     }
@@ -282,7 +290,9 @@ public class UInt64Serializer: JSONSerializer {
     }
 }
 
-public class Int64Serializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class Int64Serializer: JSONSerializer {
     public func serialize(value: Int64) -> JSON {
         return .Number(NSNumber(longLong: value))
     }
@@ -297,7 +307,9 @@ public class Int64Serializer: JSONSerializer {
     }
 }
 
-public class Int32Serializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class Int32Serializer: JSONSerializer {
     public func serialize(value: Int32) -> JSON {
         return .Number(NSNumber(int: value))
     }
@@ -311,7 +323,9 @@ public class Int32Serializer: JSONSerializer {
         }
     }
 }
-public class UInt32Serializer: JSONSerializer {
+public
+typealias ValueType = <#type#>
+ class UInt32Serializer: JSONSerializer {
     public func serialize(value: UInt32) -> JSON {
         return .Number(NSNumber(unsignedInt: value))
     }
@@ -326,7 +340,9 @@ public class UInt32Serializer: JSONSerializer {
     }
 }
 
-public class NSDataSerializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class NSDataSerializer: JSONSerializer {
     public func serialize(value: NSData) -> JSON {
         return .Str(value.base64EncodedString(options: []))
     }
@@ -341,7 +357,9 @@ public class NSDataSerializer: JSONSerializer {
     }
 }
 
-public class DoubleSerializer: JSONSerializer {
+pu
+typealias ValueType = <#type#>
+blic class DoubleSerializer: JSONSerializer {
     public func serialize(value: Double) -> JSON {
         return .Number(NSNumber(double: value))
     }
@@ -357,7 +375,9 @@ public class DoubleSerializer: JSONSerializer {
 }
 
 
-public class NullableSerializer<T: JSONSerializer>: JSONSerializer {
+p
+typealias ValueType = <#type#>
+ublic class NullableSerializer<T: JSONSerializer>: JSONSerializer {
     
     var internalSerializer: T
     
@@ -405,7 +425,7 @@ struct Serialization {
     }
 
     static func getTag(d: [String: JSON]) -> String {
-        return _StringSerializer.deserialize(d[".tag"]!)
+ json:        return _StringSerializer.deserialize(d[".tag"]!)
     }
 
 }

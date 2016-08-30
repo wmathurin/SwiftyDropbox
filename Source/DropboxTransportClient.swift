@@ -62,7 +62,7 @@ open class DropboxTransportClient {
 
         if let serverArgs = serverArgs {
             let jsonRequestObj = route.argSerializer.serialize(serverArgs)
-            rawJsonRequest = SerializeUtil.dumpJSON(jsonRequestObj)
+            rawJsonRequest = SerializeUtil.dumpJSON(json: jsonRequestObj)
         } else {
             let voidSerializer = route.argSerializer as! VoidSerializer
             let jsonRequestObj = voidSerializer.serialize()
@@ -72,7 +72,7 @@ open class DropboxTransportClient {
         let headers = getHeaders(routeStyle, jsonRequest: rawJsonRequest, host: host)
 
         let encoding = ParameterEncoding.custom { convertible, _ in
-            let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
+            let mutableRequest = convertible.urlRequest.copy() as! NSMutableURLRequest
             mutableRequest.httpBody = rawJsonRequest
             return (mutableRequest, nil)
         }
@@ -92,7 +92,7 @@ open class DropboxTransportClient {
         let routeStyle: RouteStyle = RouteStyle(rawValue: route.attrs["style"]!!)!
         
         let jsonRequestObj = route.argSerializer.serialize(serverArgs)
-        let rawJsonRequest = SerializeUtil.dumpJSON(jsonRequestObj)
+        let rawJsonRequest = SerializeUtil.dumpJSON(json: jsonRequestObj)
         
         let headers = getHeaders(routeStyle, jsonRequest: rawJsonRequest, host: host)
         
@@ -119,7 +119,7 @@ open class DropboxTransportClient {
         let routeStyle: RouteStyle = RouteStyle(rawValue: route.attrs["style"]!!)!
         
         let jsonRequestObj = route.argSerializer.serialize(serverArgs)
-        let rawJsonRequest = SerializeUtil.dumpJSON(jsonRequestObj)
+        let rawJsonRequest = SerializeUtil.dumpJSON(json: jsonRequestObj)
         
         let headers = getHeaders(routeStyle, jsonRequest: rawJsonRequest, host: host)
 
@@ -170,7 +170,7 @@ open class DropboxTransportClient {
         let routeStyle: RouteStyle = RouteStyle(rawValue: route.attrs["style"]!!)!
 
         let jsonRequestObj = route.argSerializer.serialize(serverArgs)
-        let rawJsonRequest = SerializeUtil.dumpJSON(jsonRequestObj)
+        let rawJsonRequest = SerializeUtil.dumpJSON(json: jsonRequestObj)
 
         let headers = getHeaders(routeStyle, jsonRequest: rawJsonRequest, host: host)
 
@@ -361,7 +361,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
                 }
                 return .badInputError(message, requestId)
             case 401:
-                let json = SerializeUtil.parseJSON(data!)
+                let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
                 case .dictionary(let d):
                     return .authError(Auth.AuthErrorSerializer().deserialize(d["error"]!), requestId)
@@ -369,7 +369,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
                     fatalError("Failed to parse error type")
                 }
             case 403, 404, 409:
-                let json = SerializeUtil.parseJSON(data!)
+                let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
                 case .dictionary(let d):
                     return .routeError(Box(self.errorSerializer.deserialize(d["error"]!)), requestId)
@@ -377,7 +377,7 @@ open class Request<RSerial: JSONSerializer, ESerial: JSONSerializer> {
                     fatalError("Failed to parse error type")
                 }
             case 429:
-                let json = SerializeUtil.parseJSON(data!)
+                let json = SerializeUtil.parseJSON(data: data!)
                 switch json {
                 case .dictionary(let d):
                     return .rateLimitError(Auth.RateLimitErrorSerializer().deserialize(d["error"]!), requestId)
@@ -414,7 +414,7 @@ open class RpcRequest<RSerial: JSONSerializer, ESerial: JSONSerializer>: Request
             if error != nil {
                 completionHandler(nil, self.handleResponseError(response, data: data, error: error))
             } else {
-                completionHandler(self.responseSerializer.deserialize(SerializeUtil.parseJSON(data)), nil)
+                completionHandler(self.responseSerializer.deserialize(SerializeUtil.parseJSON(data: data)), nil)
             }
         }
         return self
@@ -434,7 +434,7 @@ open class UploadRequest<RSerial: JSONSerializer, ESerial: JSONSerializer>: Requ
             if error != nil {
                 completionHandler(nil, self.handleResponseError(response, data: data, error: error))
             } else {
-                completionHandler(self.responseSerializer.deserialize(SerializeUtil.parseJSON(data)), nil)
+                completionHandler(self.responseSerializer.deserialize(SerializeUtil.parseJSON(data: data)), nil)
             }
         }
         return self
@@ -462,7 +462,7 @@ open class DownloadRequestFile<RSerial: JSONSerializer, ESerial: JSONSerializer>
             } else {
                 let result = response!.allHeaderFields["Dropbox-Api-Result"] as! String
                 let resultData = result.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-                let resultObject = self.responseSerializer.deserialize(SerializeUtil.parseJSON(resultData))
+                let resultObject = self.responseSerializer.deserialize(SerializeUtil.parseJSON(data: resultData))
                 
                 completionHandler((resultObject, self.urlPath!), nil)
             }
@@ -486,7 +486,7 @@ open class DownloadRequestMemory<RSerial: JSONSerializer, ESerial: JSONSerialize
                 } else {
                     let result = response!.allHeaderFields["Dropbox-Api-Result"] as! String
                     let resultData = result.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-                    let resultObject = self.responseSerializer.deserialize(SerializeUtil.parseJSON(resultData))
+                    let resultObject = self.responseSerializer.deserialize(SerializeUtil.parseJSON(data: resultData))
 
                     completionHandler((resultObject, data!), nil)
                 }

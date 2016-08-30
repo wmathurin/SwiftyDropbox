@@ -146,7 +146,7 @@ open class FilesRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Files.FileMetadata` object on success or a
     /// `Files.DownloadError` object on failure.
-    open func download(path: String, rev: String? = nil, overwrite: Bool = false, destination: (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.DownloadErrorSerializer> {
+    open func download(path: String, rev: String? = nil, overwrite: Bool = false, destination: @escaping (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.DownloadErrorSerializer> {
         let route = Files.download
         let serverArgs = Files.DownloadArg(path: path, rev: rev)
         return client.request(route, serverArgs: serverArgs, overwrite: overwrite, destination: destination)
@@ -195,7 +195,7 @@ open class FilesRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Files.FileMetadata` object on success or a
     /// `Files.PreviewError` object on failure.
-    open func getPreview(path: String, rev: String? = nil, overwrite: Bool = false, destination: (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.PreviewErrorSerializer> {
+    open func getPreview(path: String, rev: String? = nil, overwrite: Bool = false, destination: @escaping (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.PreviewErrorSerializer> {
         let route = Files.getPreview
         let serverArgs = Files.PreviewArg(path: path, rev: rev)
         return client.request(route, serverArgs: serverArgs, overwrite: overwrite, destination: destination)
@@ -243,7 +243,7 @@ open class FilesRoutes {
     ///
     ///  - returns: Through the response callback, the caller will receive a `Files.FileMetadata` object on success or a
     /// `Files.ThumbnailError` object on failure.
-    open func getThumbnail(path: String, format: Files.ThumbnailFormat = .jpeg, size: Files.ThumbnailSize = .w64h64, overwrite: Bool = false, destination: (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.ThumbnailErrorSerializer> {
+    open func getThumbnail(path: String, format: Files.ThumbnailFormat = .jpeg, size: Files.ThumbnailSize = .w64h64, overwrite: Bool = false, destination: @escaping (URL, HTTPURLResponse) -> URL) -> DownloadRequestFile<Files.FileMetadataSerializer, Files.ThumbnailErrorSerializer> {
         let route = Files.getThumbnail
         let serverArgs = Files.ThumbnailArg(path: path, format: format, size: size)
         return client.request(route, serverArgs: serverArgs, overwrite: overwrite, destination: destination)

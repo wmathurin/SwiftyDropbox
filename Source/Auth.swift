@@ -18,7 +18,7 @@ open class Auth {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(AuthErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: AuthErrorSerializer().serialize(self)))"
         }
     }
     open class AuthErrorSerializer: JSONSerializer {
@@ -27,26 +27,26 @@ open class Auth {
             switch value {
                 case .invalidAccessToken:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("invalid_access_token")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("invalid_access_token")
+                    return .Dictionary(d)
                 case .invalidSelectUser:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("invalid_select_user")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("invalid_select_user")
+                    return .Dictionary(d)
                 case .invalidSelectAdmin:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("invalid_select_admin")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("invalid_select_admin")
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("other")
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> AuthError {
             switch json {
-                case .dictionary(let d):
-                    let tag = Serialization.getTag(d)
+                case .Dictionary(let d):
+                    let tag = Serialization.getTag(d:d)
                     switch tag {
                         case "invalid_access_token":
                             return AuthError.invalidAccessToken
@@ -77,7 +77,7 @@ open class Auth {
             self.retryAfter = retryAfter
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RateLimitErrorSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RateLimitErrorSerializer().serialize(self)))"
         }
     }
     open class RateLimitErrorSerializer: JSONSerializer {
@@ -85,7 +85,7 @@ open class Auth {
         open func serialize(_ value: RateLimitError) -> JSON {
             let output = [ 
             "reason": Auth.RateLimitReasonSerializer().serialize(value.reason),
-            "retry_after": Serialization._UInt64Serializer.serialize(value.retryAfter),
+            "retry_after": Serialization._UInt64Serializer.serialize(value: value.retryAfter),
             ]
             return .dictionary(output)
         }
@@ -111,7 +111,7 @@ open class Auth {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(RateLimitReasonSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: RateLimitReasonSerializer().serialize(self)))"
         }
     }
     open class RateLimitReasonSerializer: JSONSerializer {
@@ -120,16 +120,16 @@ open class Auth {
             switch value {
                 case .tooManyRequests:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("too_many_requests")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("too_many_requests")
+                    return .Dictionary(d)
                 case .tooManyWriteOperations:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("too_many_write_operations")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("too_many_write_operations")
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
-                    d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    d[".tag"] = .Str("other")
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> RateLimitReason {

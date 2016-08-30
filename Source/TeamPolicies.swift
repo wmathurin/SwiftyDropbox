@@ -18,7 +18,7 @@ open class TeamPolicies {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(EmmStateSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: EmmStateSerializer().serialize(self)))"
         }
     }
     open class EmmStateSerializer: JSONSerializer {
@@ -28,19 +28,19 @@ open class TeamPolicies {
                 case .disabled:
                     var d = [String: JSON]()
                     d[".tag"] = .str("disabled")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .optional:
                     var d = [String: JSON]()
                     d[".tag"] = .str("optional")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .required:
                     var d = [String: JSON]()
                     d[".tag"] = .str("required")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> EmmState {
@@ -75,7 +75,7 @@ open class TeamPolicies {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderJoinPolicySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderJoinPolicySerializer().serialize(self)))"
         }
     }
     open class SharedFolderJoinPolicySerializer: JSONSerializer {
@@ -85,15 +85,15 @@ open class TeamPolicies {
                 case .fromTeamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("from_team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .fromAnyone:
                     var d = [String: JSON]()
                     d[".tag"] = .str("from_anyone")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderJoinPolicy {
@@ -126,7 +126,7 @@ open class TeamPolicies {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedFolderMemberPolicySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedFolderMemberPolicySerializer().serialize(self)))"
         }
     }
     open class SharedFolderMemberPolicySerializer: JSONSerializer {
@@ -136,15 +136,15 @@ open class TeamPolicies {
                 case .team:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .anyone:
                     var d = [String: JSON]()
                     d[".tag"] = .str("anyone")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedFolderMemberPolicy {
@@ -182,7 +182,7 @@ open class TeamPolicies {
         case other
 
         public var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(SharedLinkCreatePolicySerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: SharedLinkCreatePolicySerializer().serialize(self)))"
         }
     }
     open class SharedLinkCreatePolicySerializer: JSONSerializer {
@@ -192,19 +192,19 @@ open class TeamPolicies {
                 case .defaultPublic:
                     var d = [String: JSON]()
                     d[".tag"] = .str("default_public")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .defaultTeamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("default_team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .teamOnly:
                     var d = [String: JSON]()
                     d[".tag"] = .str("team_only")
-                    return .dictionary(d)
+                    return .Dictionary(d)
                 case .other:
                     var d = [String: JSON]()
                     d[".tag"] = .str("other")
-                    return .dictionary(d)
+                    return .Dictionary(d)
             }
         }
         open func deserialize(_ json: JSON) -> SharedLinkCreatePolicy {
@@ -243,7 +243,7 @@ open class TeamPolicies {
             self.emmState = emmState
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(TeamMemberPoliciesSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: TeamMemberPoliciesSerializer().serialize(self)))"
         }
     }
     open class TeamMemberPoliciesSerializer: JSONSerializer {
@@ -253,7 +253,7 @@ open class TeamPolicies {
             "sharing": TeamPolicies.TeamSharingPoliciesSerializer().serialize(value.sharing),
             "emm_state": TeamPolicies.EmmStateSerializer().serialize(value.emmState),
             ]
-            return .dictionary(output)
+            return .Dictionary(output)
         }
         open func deserialize(_ json: JSON) -> TeamMemberPolicies {
             switch json {
@@ -281,7 +281,7 @@ open class TeamPolicies {
             self.sharedLinkCreatePolicy = sharedLinkCreatePolicy
         }
         open var description: String {
-            return "\(SerializeUtil.prepareJSONForSerialization(TeamSharingPoliciesSerializer().serialize(self)))"
+            return "\(SerializeUtil.prepareJSONForSerialization(json: TeamSharingPoliciesSerializer().serialize(self)))"
         }
     }
     open class TeamSharingPoliciesSerializer: JSONSerializer {
@@ -292,7 +292,7 @@ open class TeamPolicies {
             "shared_folder_join_policy": TeamPolicies.SharedFolderJoinPolicySerializer().serialize(value.sharedFolderJoinPolicy),
             "shared_link_create_policy": TeamPolicies.SharedLinkCreatePolicySerializer().serialize(value.sharedLinkCreatePolicy),
             ]
-            return .dictionary(output)
+            return .Dictionary(output)
         }
         open func deserialize(_ json: JSON) -> TeamSharingPolicies {
             switch json {
